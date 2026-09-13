@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Page not found | Anish Mahapatra';
+const description = 'This page could not be found.';
+---
+
+<Layout title={title} description={description} path="/404/">
+  <section class="not-found">
+    <div class="wrap">
+      <p class="eyebrow">404</p>
+      <h1>Page not found</h1>
+      <p class="lede">
+        That page doesn't exist. Head back to the
+        <a href="/" style="color: var(--accent); text-decoration: underline;">homepage</a>.
+      </p>
+    </div>
+  </section>
+</Layout>

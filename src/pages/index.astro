@@ -1,0 +1,225 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Anish Mahapatra | Senior Software Engineer, AI & ML Systems';
+const description =
+  'Anish Mahapatra is a Senior Software Engineer at Toast building reliable AI platforms and production machine learning systems. Previously SAP, 7-Eleven, and Mu Sigma.';
+
+const experience = [
+  {
+    when: '2026 — Present',
+    title: 'Senior Software Engineer',
+    org: 'Toast',
+    desc: 'Recently joined to work on production software systems.',
+  },
+  {
+    when: '2024 — 2026',
+    title: 'Senior MLOps Engineer, AIOps Platform Lead',
+    org: 'SAP',
+    desc: 'Led productionization of an enterprise AIOps platform for Fortune 500 clients on Kubernetes; built MLOps/LLMOps workflows with GitHub Actions, ArgoCD, and MLflow, and NLP-based data anonymization pipelines.',
+  },
+  {
+    when: '2022 — 2024',
+    title: 'Senior AI & Machine Learning Engineer',
+    org: '7-Eleven',
+    desc: 'Built LLM-driven enterprise analytics with LangChain and real-time data pipelines on Kafka, Spark, and Databricks; led migration of large-scale tables to Delta Lake and Power BI.',
+  },
+  {
+    when: '2018 — 2022',
+    title: 'Lead Data Scientist',
+    org: 'Mu Sigma',
+    desc: 'Progressed from Data Scientist to Lead Data Scientist over four years, leading ML pipelines and data engineering for Fortune 300 clients across demand forecasting and anomaly detection.',
+  },
+];
+
+const projects = [
+  {
+    name: 'Multimodal Biometric MLOps Pipeline',
+    href: 'https://github.com/anishmahapatra/multimodal-fingerprint-analysis',
+    desc: 'A packaged PyTorch workflow with leakage-safe data splits, reproducible training, FastAPI serving, tests, CI, Docker, and Kubernetes manifests.',
+    tags: ['PyTorch', 'FastAPI', 'Docker', 'Kubernetes'],
+    status: 'Implemented',
+  },
+  {
+    name: 'AI Engineer Interview Readiness',
+    href: 'https://github.com/anishmahapatra/ai-engineer-interview-readiness',
+    desc: 'A deployed Next.js application for AI system design and interview preparation, with a server-side contact workflow and Supabase persistence.',
+    tags: ['Next.js', 'TypeScript', 'Supabase'],
+    status: 'Deployed',
+  },
+  {
+    name: 'Saathi Voice',
+    href: 'https://github.com/anishmahapatra/saathi-voice',
+    desc: 'A local voice AI loop for macOS combining speech recognition, an LLM, speech synthesis, turn history, and latency tracing.',
+    tags: ['Whisper', 'Claude', 'ElevenLabs'],
+    status: 'Prototype',
+  },
+  {
+    name: 'Payment Failure Intelligence Platform',
+    href: 'https://github.com/anishmahapatra/payments-failure-intelligence-platform',
+    desc: 'An architecture blueprint for payment event contracts, failure classification, retry decisions, evaluation, and production monitoring.',
+    tags: ['Event-driven', 'MLOps', 'Monitoring'],
+    status: 'Design phase',
+  },
+  {
+    name: 'MultiDocument AI',
+    href: 'https://github.com/anishmahapatra/MultiDocument-AI',
+    desc: 'A Streamlit RAG prototype for querying PDF, DOCX, PPTX, and XLSX files using FAISS and LangChain.',
+    tags: ['RAG', 'LangChain', 'FAISS', 'Streamlit'],
+    status: 'Prototype',
+  },
+];
+
+const writing = [
+  {
+    title: 'Designing an End-to-End AI Platform for Payments and Retail (AWS)',
+    date: 'Apr 2026',
+    href: 'https://anishmahapatra.medium.com/',
+  },
+  {
+    title: 'Installing Claude Code for Agentic Engineering',
+    date: 'Feb 2026',
+    href: 'https://anishmahapatra.medium.com/',
+  },
+  {
+    title: 'How to Set Up an Enterprise-Ready Production Environment for Data Engineering',
+    date: 'Jul 2024',
+    href: 'https://anishmahapatra.medium.com/',
+  },
+  {
+    title: 'What is LangChain? (AI Crash Course)',
+    date: 'Feb 2024',
+    href: 'https://anishmahapatra.medium.com/',
+  },
+  {
+    title: 'Build a CI/CD Pipeline on AWS',
+    date: 'Nov 2023',
+    href: 'https://anishmahapatra.medium.com/',
+  },
+];
+
+const stack = [
+  'Python', 'PyTorch', 'FastAPI', 'Docker', 'Kubernetes',
+  'GitHub Actions', 'Kafka', 'Spark', 'Databricks', 'Azure', 'GCP', 'SQL',
+];
+---
+
+<Layout title={title} description={description}>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Senior Software Engineer · Toast</p>
+      <h1>Anish Mahapatra</h1>
+      <p class="lede">
+        I build reliable AI platforms and production machine learning systems —
+        the deployment workflows, model serving, and data infrastructure that
+        sit between a model and a dependable product.
+      </p>
+      <div class="hero-links">
+        <a class="pill" href="https://www.linkedin.com/in/anishmahapatra/" rel="me noopener noreferrer" target="_blank">
+          LinkedIn <span class="arrow">↗</span>
+        </a>
+        <a class="pill" href="https://github.com/anishmahapatra" rel="me noopener noreferrer" target="_blank">
+          GitHub <span class="arrow">↗</span>
+        </a>
+        <a class="pill" href="https://anishmahapatra.medium.com/" rel="me noopener noreferrer" target="_blank">
+          Medium <span class="arrow">↗</span>
+        </a>
+        <a class="pill" href="mailto:anishmahapatra01@gmail.com">
+          Email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-heading">
+    <div class="wrap">
+      <h2 id="about-heading">About</h2>
+      <div class="prose">
+        <p>
+          I'm a software engineer with 8+ years across AI, machine learning, and
+          data platforms, working on production deployments for enterprise and
+          Fortune 500 environments. Before Toast, I worked on AIOps platforms at
+          SAP, LLM-driven analytics and large-scale data pipelines at 7-Eleven,
+          and predictive systems as a Lead Data Scientist at Mu Sigma.
+        </p>
+        <p>
+          I care about making system boundaries and failure modes visible,
+          treating reproducibility and observability as requirements rather than
+          afterthoughts, and choosing infrastructure that matches actual scale
+          rather than anticipated scale.
+        </p>
+        <p>
+          MSc in Data Science (Distinction) from Liverpool John Moores University,
+          a postgraduate diploma in Data Science from IIIT Bangalore, and a BTech
+          in Information Technology from Manipal Institute of Technology.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" aria-labelledby="experience-heading">
+    <div class="wrap">
+      <h2 id="experience-heading">Experience</h2>
+      <ul class="timeline">
+        {experience.map((role) => (
+          <li class="role">
+            <span class="role-when">{role.when}</span>
+            <div>
+              <p class="role-title">{role.title} · <span class="role-org">{role.org}</span></p>
+              <p class="role-desc">{role.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="work" aria-labelledby="work-heading">
+    <div class="wrap">
+      <h2 id="work-heading">Selected work</h2>
+      <div class="projects">
+        {projects.map((project) => (
+          <a class="project" href={project.href} rel="noopener noreferrer" target="_blank">
+            <div class="project-top">
+              <span class="project-name">{project.name}</span>
+              <span class="project-status">{project.status}</span>
+            </div>
+            <p class="project-desc">{project.desc}</p>
+            <div class="tag-row">
+              {project.tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="writing" aria-labelledby="writing-heading">
+    <div class="wrap">
+      <h2 id="writing-heading">Writing</h2>
+      <ul class="writing-list">
+        {writing.map((post) => (
+          <li class="writing-item">
+            <a href={post.href} rel="noopener noreferrer" target="_blank">
+              <span class="writing-title">{post.title}</span>
+              <span class="writing-date">{post.date}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="stack" aria-labelledby="stack-heading">
+    <div class="wrap">
+      <h2 id="stack-heading">Technical interests</h2>
+      <p class="lede" style="margin-bottom:1.25rem;">
+        Production ML and LLM serving, evaluation and observability, Kubernetes-native
+        delivery, and data contracts for real-time and batch pipelines.
+      </p>
+      <div class="stack-row">
+        {stack.map((item) => <span class="tag">{item}</span>)}
+      </div>
+    </div>
+  </section>
+</Layout>
