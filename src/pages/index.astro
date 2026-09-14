@@ -126,7 +126,7 @@ const stackTrending = [
 
 const featured = [
   { name: 'upGrad KnowledgeHut', inline: knowledgehutIcon, slug: 'knowledgehut', href: 'https://www.knowledgehut.com/blog/author/anish-mahapatra-2' },
-  { name: 'Pluralsight', imgLight: '/logos/pluralsight-black.png', imgDark: '/logos/pluralsight-color.png', href: 'https://www.pluralsight.com/' },
+  { name: 'Pluralsight', imgLight: '/logos/pluralsight-color-fill.png', imgDark: '/logos/pluralsight-color.png', href: 'https://www.pluralsight.com/' },
   { name: 'Pepper', img: '/logos/pepper.svg', href: 'https://www.peppercontent.io/' },
   { name: 'Towards Data Science', inline: tdsIcon, slug: 'tds', href: 'https://towardsdatascience.com/' },
 ];
@@ -215,7 +215,12 @@ const featured = [
               <div class="role-heading">
                 <img class="role-logo" src={role.logo} alt={role.logoAlt} loading="lazy" />
                 <p class="role-title">{role.title} · <span class="role-org">{role.org}</span></p>
-                {role.current && <span class="current-badge">Current</span>}
+                {role.current && (
+                  <span class="current-indicator">
+                    <span class="current-dot" aria-hidden="true" />
+                    Current
+                  </span>
+                )}
               </div>
               <p class="role-desc">{role.desc}</p>
             </div>
@@ -244,7 +249,10 @@ const featured = [
 
   <section id="writing" aria-labelledby="writing-heading">
     <div class="wrap">
-      <h2 id="writing-heading">Writing</h2>
+      <h2 id="writing-heading">
+        <span class="heading-icon" aria-hidden="true" set:html={mediumIcon} />
+        Writing
+      </h2>
       <p class="lede" style="margin-bottom:1.25rem;">
         Medium Top Writer. I've taught Data Science, Machine Learning, and AI
         to over 100,000 learners.
@@ -307,7 +315,10 @@ const featured = [
 
   <section id="work" aria-labelledby="work-heading">
     <div class="wrap">
-      <h2 id="work-heading">Selected work</h2>
+      <h2 id="work-heading">
+        <span class="heading-icon" aria-hidden="true" set:html={githubIcon} />
+        Selected work
+      </h2>
       <div class="projects">
         {projects.map((project) => (
           <a class="project" href={project.href} rel="noopener noreferrer" target="_blank">
@@ -328,7 +339,6 @@ const featured = [
   <section id="contact" class="cta-band" aria-labelledby="contact-heading">
     <div class="cta-shapes" aria-hidden="true"></div>
     <div class="wrap cta-inner">
-      <p class="cta-eyebrow">Get in touch</p>
       <h2 id="contact-heading">Let&rsquo;s build something worth production.</h2>
       <p class="cta-lede">
         Open to conversations on AI/ML platforms, MLOps, and anything at the

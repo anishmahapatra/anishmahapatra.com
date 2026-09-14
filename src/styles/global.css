@@ -5,7 +5,7 @@
   --bg-raised: #ffffff;
   --text: #17181a;
   --text-muted: #55585e;
-  --text-faint: #8a8d93;
+  --text-faint: #6a6d73;
   --border: #e6e4e0;
   --accent: #b8490f;
   --accent-soft: #fbe9de;
@@ -29,7 +29,7 @@
     --bg-raised: #191a1c;
     --text: #eceae6;
     --text-muted: #a5a8ad;
-    --text-faint: #75787e;
+    --text-faint: #878a8f;
     --border: #2b2c2f;
     --accent: #e8834a;
     --accent-soft: #3a2416;
@@ -47,7 +47,7 @@
   --bg-raised: #191a1c;
   --text: #eceae6;
   --text-muted: #a5a8ad;
-  --text-faint: #75787e;
+  --text-faint: #878a8f;
   --border: #2b2c2f;
   --accent: #e8834a;
   --accent-soft: #3a2416;
@@ -285,12 +285,10 @@ section + section {
 }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 1.05rem;
+  font-weight: 600;
   color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 0.9rem;
+  margin: 0 0 0.5rem;
 }
 
 h1 {
@@ -302,6 +300,9 @@ h1 {
 }
 
 h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 1.05rem;
   font-family: var(--font-mono);
   text-transform: uppercase;
@@ -309,6 +310,16 @@ h2 {
   color: var(--text-muted);
   margin: 0 0 1.5rem;
   font-weight: 600;
+}
+
+.heading-icon {
+  display: inline-flex;
+  color: var(--text-faint);
+}
+
+.heading-icon svg {
+  width: 0.95rem;
+  height: 0.95rem;
 }
 
 .lede {
@@ -319,19 +330,22 @@ h2 {
 }
 
 .hero-links {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
   margin-top: 1.6rem;
+  max-width: 22rem;
 }
 
 .pill {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
+  width: 100%;
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   font-size: 0.88rem;
   text-decoration: none;
   color: var(--text);
@@ -402,19 +416,24 @@ p {
   color: var(--toast);
 }
 
-.current-badge {
+.current-indicator {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   color: var(--toast);
-  background: var(--toast-soft);
-  border-radius: 999px;
-  padding: 0.15rem 0.55rem;
-  margin-left: 0.6rem;
+  margin-left: 0.7rem;
+}
+
+.current-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--toast);
+  flex-shrink: 0;
 }
 
 .role-when {
@@ -770,15 +789,6 @@ body {
   gap: 0.4rem;
 }
 
-.cta-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: #ff9a68;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 0.5rem;
-}
-
 .cta-band h2 {
   margin: 0 0 1rem;
   max-width: 30rem;
@@ -813,7 +823,7 @@ body {
   text-decoration: none;
   padding: 0.85rem 1.6rem;
   border-radius: 999px;
-  box-shadow: 0 8px 24px rgba(255, 111, 97, 0.35);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -823,7 +833,7 @@ body {
 
 .cta-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(255, 111, 97, 0.45);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
 
 .cta-primary:hover .cta-primary-arrow {
