@@ -619,7 +619,7 @@ p {
   align-items: center;
   width: max-content;
   gap: 3.5rem;
-  animation: marquee-scroll 32s linear infinite;
+  animation: marquee-scroll 20s linear infinite;
 }
 
 .marquee:hover .marquee-track {
@@ -644,6 +644,10 @@ p {
 }
 
 .marquee-item.logo-knowledgehut {
+  color: var(--text);
+}
+
+.marquee-item.logo-pepper {
   color: var(--text);
 }
 
