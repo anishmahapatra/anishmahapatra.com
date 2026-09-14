@@ -1,33 +1,48 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import linkedinIcon from '../icons/linkedin.svg?raw';
+import githubIcon from '../icons/github.svg?raw';
+import mediumIcon from '../icons/medium.svg?raw';
+import xIcon from '../icons/x.svg?raw';
+import tdsIcon from '../icons/towards-data-science.svg?raw';
+import knowledgehutIcon from '../icons/knowledgehut.svg?raw';
 
-const title = 'Anish Mahapatra | Senior Software Engineer, AI & ML Systems';
+const title = 'Anish Mahapatra | Senior AI/ML Engineer, Production Systems';
 const description =
-  'Anish Mahapatra is a Senior Software Engineer at Toast building reliable AI platforms and production machine learning systems. Previously SAP, 7-Eleven, and Mu Sigma.';
+  "Anish Mahapatra is an AI/ML engineer taking data and AI systems from prototype to production at Toast, previously SAP, 7-Eleven, and Mu Sigma. Medium Top Writer teaching Data Science and AI to 100,000+ learners.";
 
 const experience = [
   {
-    when: '2026 — Present',
+    when: '2026–Present',
     title: 'Senior Software Engineer',
     org: 'Toast',
-    desc: 'Recently joined to work on production software systems.',
+    logo: '/logos/toast.svg',
+    logoAlt: 'Toast',
+    current: true,
+    desc: 'Applying production AI/ML and data engineering experience to Toast’s restaurant fintech platform.',
   },
   {
-    when: '2024 — 2026',
+    when: '2024–2026',
     title: 'Senior MLOps Engineer, AIOps Platform Lead',
     org: 'SAP',
+    logo: '/logos/sap.svg',
+    logoAlt: 'SAP',
     desc: 'Led productionization of an enterprise AIOps platform for Fortune 500 clients on Kubernetes; built MLOps/LLMOps workflows with GitHub Actions, ArgoCD, and MLflow, and NLP-based data anonymization pipelines.',
   },
   {
-    when: '2022 — 2024',
+    when: '2022–2024',
     title: 'Senior AI & Machine Learning Engineer',
     org: '7-Eleven',
+    logo: '/logos/7-eleven.svg',
+    logoAlt: '7-Eleven',
     desc: 'Built LLM-driven enterprise analytics with LangChain and real-time data pipelines on Kafka, Spark, and Databricks; led migration of large-scale tables to Delta Lake and Power BI.',
   },
   {
-    when: '2018 — 2022',
+    when: '2018–2022',
     title: 'Lead Data Scientist',
     org: 'Mu Sigma',
+    logo: '/logos/mu-sigma.png',
+    logoAlt: 'Mu Sigma',
     desc: 'Progressed from Data Scientist to Lead Data Scientist over four years, leading ML pipelines and data engineering for Fortune 300 clients across demand forecasting and anomaly detection.',
   },
 ];
@@ -99,34 +114,59 @@ const writing = [
 ];
 
 const stack = [
-  'Python', 'PyTorch', 'FastAPI', 'Docker', 'Kubernetes',
-  'GitHub Actions', 'Kafka', 'Spark', 'Databricks', 'Azure', 'GCP', 'SQL',
+  'Python', 'PyTorch', 'FastAPI', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP',
+  'GitHub Actions', 'Airflow', 'Kafka', 'Spark', 'Databricks', 'DynamoDB', 'SQL',
+  'Splunk', 'Datadog', 'FireHydrant', 'SCONE', 'Spotify Backstage',
+];
+
+const stackTrending = [
+  'LangChain', 'MLflow', 'ArgoCD', 'Terraform', 'Prometheus',
+  'Grafana', 'vLLM', 'Vector Databases', 'OpenTelemetry', 'Snowflake',
+];
+
+const featured = [
+  { name: 'upGrad KnowledgeHut', inline: knowledgehutIcon, slug: 'knowledgehut', href: 'https://www.knowledgehut.com/blog/author/anish-mahapatra-2' },
+  { name: 'Pluralsight', imgLight: '/logos/pluralsight-black.png', imgDark: '/logos/pluralsight-color.png', href: 'https://www.pluralsight.com/' },
+  { name: 'Pepper', img: '/logos/pepper.svg', href: 'https://www.peppercontent.io/' },
+  { name: 'Towards Data Science', inline: tdsIcon, slug: 'tds', href: 'https://towardsdatascience.com/' },
 ];
 ---
 
 <Layout title={title} description={description}>
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Senior Software Engineer · Toast</p>
-      <h1>Anish Mahapatra</h1>
-      <p class="lede">
-        I build reliable AI platforms and production machine learning systems —
-        the deployment workflows, model serving, and data infrastructure that
-        sit between a model and a dependable product.
-      </p>
-      <div class="hero-links">
-        <a class="pill" href="https://www.linkedin.com/in/anishmahapatra/" rel="me noopener noreferrer" target="_blank">
-          LinkedIn <span class="arrow">↗</span>
-        </a>
-        <a class="pill" href="https://github.com/anishmahapatra" rel="me noopener noreferrer" target="_blank">
-          GitHub <span class="arrow">↗</span>
-        </a>
-        <a class="pill" href="https://anishmahapatra.medium.com/" rel="me noopener noreferrer" target="_blank">
-          Medium <span class="arrow">↗</span>
-        </a>
-        <a class="pill" href="mailto:anishmahapatra01@gmail.com">
-          Email
-        </a>
+      <div class="hero-text">
+        <p class="eyebrow">Senior AI/ML Engineer · Production Systems</p>
+        <h1>Anish Mahapatra</h1>
+        <p class="lede">
+          I take data and AI systems from prototype to production, building
+          platforms and infrastructure at scale for Fortune 500 teams across
+          fintech, adtech, and enterprise software.
+        </p>
+        <div class="hero-links">
+          <a class="pill" href="https://www.linkedin.com/in/anishmahapatra/" rel="me noopener noreferrer" target="_blank">
+            <span class="pill-icon" aria-hidden="true" set:html={linkedinIcon} />
+            LinkedIn
+          </a>
+          <a class="pill" href="https://github.com/anishmahapatra" rel="me noopener noreferrer" target="_blank">
+            <span class="pill-icon" aria-hidden="true" set:html={githubIcon} />
+            GitHub
+          </a>
+          <a class="pill" href="https://anishmahapatra.medium.com/" rel="me noopener noreferrer" target="_blank">
+            <span class="pill-icon" aria-hidden="true" set:html={mediumIcon} />
+            Medium
+          </a>
+          <a class="pill" href="https://x.com/_anishmahapatra" rel="me noopener noreferrer" target="_blank">
+            <span class="pill-icon" aria-hidden="true" set:html={xIcon} />
+            Twitter
+          </a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <picture>
+          <source srcset="/headshot.webp" type="image/webp" />
+          <img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="272" height="272" />
+        </picture>
       </div>
     </div>
   </section>
@@ -136,22 +176,29 @@ const stack = [
       <h2 id="about-heading">About</h2>
       <div class="prose">
         <p>
-          I'm a software engineer with 8+ years across AI, machine learning, and
-          data platforms, working on production deployments for enterprise and
-          Fortune 500 environments. Before Toast, I worked on AIOps platforms at
-          SAP, LLM-driven analytics and large-scale data pipelines at 7-Eleven,
-          and predictive systems as a Lead Data Scientist at Mu Sigma.
+          I'm an AI/ML engineer with several years of experience taking data
+          and AI systems from prototype to production. I've built data
+          infrastructure and AI/ML platforms at scale at SAP, 7-Eleven, and
+          Toast, working with Fortune 500 stakeholders across fintech, adtech,
+          and enterprise software.
         </p>
         <p>
-          I care about making system boundaries and failure modes visible,
-          treating reproducibility and observability as requirements rather than
-          afterthoughts, and choosing infrastructure that matches actual scale
-          rather than anticipated scale.
+          My work spans data engineering, machine learning, data science,
+          LLM-based applications, and artificial intelligence in production:
+          the full path from a working prototype to something reliable enough
+          to depend on.
         </p>
         <p>
-          MSc in Data Science (Distinction) from Liverpool John Moores University,
-          a postgraduate diploma in Data Science from IIIT Bangalore, and a BTech
-          in Information Technology from Manipal Institute of Technology.
+          I'm especially passionate about teaching people to be their very
+          best. I believe it's better to learn than to know. I've taught
+          Data Science, Machine Learning, and AI to over 100,000 learners and
+          write about it on Medium, where I'm recognized as a Top Writer.
+        </p>
+        <p>
+          MSc in Data Science with Distinction (top 1%) from Liverpool John
+          Moores University, a postgraduate diploma in Data Science from IIIT
+          Bangalore, and a BTech in Information Technology from Manipal
+          Institute of Technology.
         </p>
       </div>
     </div>
@@ -162,15 +209,99 @@ const stack = [
       <h2 id="experience-heading">Experience</h2>
       <ul class="timeline">
         {experience.map((role) => (
-          <li class="role">
+          <li class={`role ${role.current ? 'role-current' : ''}`}>
             <span class="role-when">{role.when}</span>
             <div>
-              <p class="role-title">{role.title} · <span class="role-org">{role.org}</span></p>
+              <div class="role-heading">
+                <img class="role-logo" src={role.logo} alt={role.logoAlt} loading="lazy" />
+                <p class="role-title">{role.title} · <span class="role-org">{role.org}</span></p>
+                {role.current && <span class="current-badge">Current</span>}
+              </div>
               <p class="role-desc">{role.desc}</p>
             </div>
           </li>
         ))}
       </ul>
+    </div>
+  </section>
+
+  <section id="stack" aria-labelledby="stack-heading">
+    <div class="wrap">
+      <h2 id="stack-heading">Technical interests</h2>
+      <p class="lede" style="margin-bottom:1.25rem;">
+        Production ML and LLM serving, evaluation and observability, Kubernetes-native
+        delivery, and data contracts for real-time and batch pipelines.
+      </p>
+      <div class="stack-row">
+        {stack.map((item) => <span class="tag">{item}</span>)}
+      </div>
+      <p class="stack-sublabel">Also exploring</p>
+      <div class="stack-row">
+        {stackTrending.map((item) => <span class="tag tag-trending">{item}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="writing" aria-labelledby="writing-heading">
+    <div class="wrap">
+      <h2 id="writing-heading">Writing</h2>
+      <p class="lede" style="margin-bottom:1.25rem;">
+        Medium Top Writer. I've taught Data Science, Machine Learning, and AI
+        to over 100,000 learners.
+      </p>
+      <ul class="writing-list">
+        {writing.map((post) => (
+          <li class="writing-item">
+            <a href={post.href} rel="noopener noreferrer" target="_blank">
+              <span class="writing-title">{post.title}</span>
+              <span class="writing-date">{post.date}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="featured" aria-labelledby="featured-heading">
+    <div class="wrap">
+      <h2 id="featured-heading">Featured &amp; Teaching</h2>
+      <div class="marquee">
+        <div class="marquee-track">
+          {[...featured, ...featured].map((f) => (
+            f.inline ? (
+              <a
+                class={`marquee-item ${f.slug ? `logo-${f.slug}` : ''}`}
+                href={f.href}
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label={f.name}
+                set:html={f.inline}
+              />
+            ) : f.imgLight ? (
+              <a
+                class="marquee-item"
+                href={f.href}
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label={f.name}
+              >
+                <img class="theme-img-light" src={f.imgLight} alt={f.name} loading="lazy" />
+                <img class="theme-img-dark" src={f.imgDark} alt={f.name} loading="lazy" />
+              </a>
+            ) : (
+              <a
+                class="marquee-item"
+                href={f.href}
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label={f.name}
+              >
+                <img src={f.img} alt={f.name} loading="lazy" />
+              </a>
+            )
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 
@@ -194,32 +325,75 @@ const stack = [
     </div>
   </section>
 
-  <section id="writing" aria-labelledby="writing-heading">
-    <div class="wrap">
-      <h2 id="writing-heading">Writing</h2>
-      <ul class="writing-list">
-        {writing.map((post) => (
-          <li class="writing-item">
-            <a href={post.href} rel="noopener noreferrer" target="_blank">
-              <span class="writing-title">{post.title}</span>
-              <span class="writing-date">{post.date}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section id="stack" aria-labelledby="stack-heading">
-    <div class="wrap">
-      <h2 id="stack-heading">Technical interests</h2>
-      <p class="lede" style="margin-bottom:1.25rem;">
-        Production ML and LLM serving, evaluation and observability, Kubernetes-native
-        delivery, and data contracts for real-time and batch pipelines.
+  <section id="contact" class="cta-band" aria-labelledby="contact-heading">
+    <div class="cta-shapes" aria-hidden="true"></div>
+    <div class="wrap cta-inner">
+      <p class="cta-eyebrow">Get in touch</p>
+      <h2 id="contact-heading">Let&rsquo;s build something worth production.</h2>
+      <p class="cta-lede">
+        Open to conversations on AI/ML platforms, MLOps, and anything at the
+        intersection of research and reliable, real-world systems.
       </p>
-      <div class="stack-row">
-        {stack.map((item) => <span class="tag">{item}</span>)}
+      <div class="cta-actions">
+        <a class="cta-primary" href="mailto:anishmahapatra01@gmail.com">
+          Say hello
+          <span class="cta-primary-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <button class="cta-copy" type="button" data-email="anishmahapatra01@gmail.com">
+          <svg class="cta-copy-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="8" y="8" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2" />
+            <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <span class="cta-copy-label">Copy email</span>
+        </button>
+      </div>
+      <div class="cta-links">
+        <a class="cta-pill" href="https://www.linkedin.com/in/anishmahapatra/" rel="me noopener noreferrer" target="_blank">
+          <span class="pill-icon" aria-hidden="true" set:html={linkedinIcon} />
+          LinkedIn
+        </a>
+        <a class="cta-pill" href="https://github.com/anishmahapatra" rel="me noopener noreferrer" target="_blank">
+          <span class="pill-icon" aria-hidden="true" set:html={githubIcon} />
+          GitHub
+        </a>
+        <a class="cta-pill" href="https://anishmahapatra.medium.com/" rel="me noopener noreferrer" target="_blank">
+          <span class="pill-icon" aria-hidden="true" set:html={mediumIcon} />
+          Medium
+        </a>
+        <a class="cta-pill" href="https://x.com/_anishmahapatra" rel="me noopener noreferrer" target="_blank">
+          <span class="pill-icon" aria-hidden="true" set:html={xIcon} />
+          Twitter
+        </a>
       </div>
     </div>
   </section>
 </Layout>
+
+<script is:inline>
+  (function () {
+    var btn = document.querySelector('.cta-copy');
+    if (!btn) return;
+    var label = btn.querySelector('.cta-copy-label');
+    var defaultLabel = label.textContent;
+    var timer = null;
+    btn.addEventListener('click', function () {
+      var email = btn.getAttribute('data-email');
+      var done = function () {
+        label.textContent = 'Copied';
+        btn.classList.add('cta-copy-done');
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          label.textContent = defaultLabel;
+          btn.classList.remove('cta-copy-done');
+        }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(done).catch(function () {
+          window.location.href = 'mailto:' + email;
+        });
+      } else {
+        window.location.href = 'mailto:' + email;
+      }
+    });
+  })();
+</script>
