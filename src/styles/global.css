@@ -1586,6 +1586,11 @@ button {
   -webkit-overflow-scrolling: touch;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .carousel.is-marquee { cursor: grab; }
+  .carousel.is-marquee.is-dragging { cursor: grabbing; user-select: none; }
+}
+
 @media (max-width: 640px) {
   html {
     scroll-padding-top: 60px;

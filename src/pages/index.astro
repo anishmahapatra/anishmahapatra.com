@@ -453,6 +453,25 @@ const figures = [
       box.addEventListener(t, function () { touching = false; userAt = performance.now(); }, { passive: true });
     });
     box.addEventListener('wheel', function () { userAt = performance.now(); }, { passive: true });
+    // Mouse: grab and drag like a finger. A drag that moved is not a click, so it won't open the card underneath.
+    var drag = null, moved = false;
+    box.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      drag = { x: e.clientX, left: box.scrollLeft }; moved = false;
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      if (!moved && Math.abs(dx) < 5) return;
+      moved = true; box.classList.add('is-dragging');
+      userAt = performance.now();
+      box.scrollLeft = pos = drag.left - dx;
+    });
+    var drop = function () { if (!drag) return; drag = null; box.classList.remove('is-dragging'); userAt = performance.now(); };
+    window.addEventListener('pointerup', drop);
+    window.addEventListener('pointercancel', drop);
+    box.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    box.addEventListener('dragstart', function (e) { e.preventDefault(); });
     box.addEventListener('mouseenter', function () { hovering = fine.matches; });
     box.addEventListener('mouseleave', function () { hovering = false; });
     // Tapping a card opens a new tab; on return, carry on (and drop the focus iOS leaves on the link).
