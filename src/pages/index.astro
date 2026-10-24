@@ -148,15 +148,21 @@ const socials = [
 
 <Layout title={title} description={description}>
   <section class="hero" aria-labelledby="hero-title">
-    <p class="hero-sentence-sm">I take data and AI systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech, and enterprise software.</p>
-    <h1 id="hero-title" class="monument">
-      <span class="mask"><span class="mask-in"><span class="monument-word">Anish</span><picture class="monument-photo"><source srcset="/headshot.webp" type="image/webp" /><img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="640" height="640" /></picture><span class="hero-sentence">I take data and AI systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech, and enterprise software.</span></span></span>
-      <span class="mask"><span class="mask-in mask-in-2">Mahapatra</span></span>
-    </h1>
-    <div class="hero-foot">
-      <p class="hero-role">Senior AI/ML Engineer, Production Systems</p>
-      <a class="button" href="#contact">Say hello</a>
+    <div class="hero-copy">
+      <p class="hero-role">Senior AI/ML Engineer · Toast</p>
+      <h1 id="hero-title" class="hero-name">Anish Mahapatra</h1>
+      <p class="hero-lede">I take data and AI systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech, and enterprise software.</p>
+      <div class="hero-actions">
+        <a class="button" href="#contact">Get in touch</a>
+        <a class="button button-ghost" href="#work">See my work</a>
+      </div>
+      <nav class="hero-social" aria-label="Profiles">
+        {socials.map((l) => (
+          <a href={l.href} rel="me noopener noreferrer" target="_blank">{l.name}</a>
+        ))}
+      </nav>
     </div>
+    <picture class="hero-photo"><source srcset="/headshot.webp" type="image/webp" /><img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="640" height="640" /></picture>
   </section>
 
   <section id="about" class="about" aria-labelledby="about-heading">
@@ -282,15 +288,13 @@ const socials = [
     <h2 id="contact-heading" class="contact-sentence" data-reveal>
       Open to conversations on AI/ML platforms, MLOps, and reliable, real-world systems.
     </h2>
-    <a class="contact-email" href="mailto:anishmahapatra01@gmail.com" data-reveal>anishmahapatra01@<br />gmail.com</a>
-    <div class="contact-foot">
-      <button class="cta-copy" type="button" data-email="anishmahapatra01@gmail.com"><span class="cta-copy-label">Copy email</span></button>
-      <nav class="contact-links" aria-label="Social">
-        {socials.map((l) => (
-          <a href={l.href} rel="me noopener noreferrer" target="_blank">{l.name}</a>
-        ))}
-      </nav>
-    </div>
+    <a class="contact-email" href="mailto:anishmahapatra01@gmail.com" data-reveal>anishmahapatra01@gmail.com</a>
+    <button class="cta-copy" type="button" data-email="anishmahapatra01@gmail.com"><span class="cta-copy-label">Copy email</span></button>
+    <nav class="contact-links" aria-label="Social">
+      {socials.map((l) => (
+        <a href={l.href} rel="me noopener noreferrer" target="_blank"><span>{l.name}</span><span aria-hidden="true">↗</span></a>
+      ))}
+    </nav>
   </section>
 </Layout>
 
