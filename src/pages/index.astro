@@ -148,12 +148,9 @@ const socials = [
 
 <Layout title={title} description={description}>
   <section class="hero" aria-labelledby="hero-title">
-    <p class="hero-sentence">
-      I take data and AI systems from prototype to production, at scale for
-      Fortune 500 teams across fintech, adtech, and enterprise software.
-    </p>
+    <p class="hero-sentence-sm">I take data and AI systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech, and enterprise software.</p>
     <h1 id="hero-title" class="monument">
-      <span class="mask"><span class="mask-in"><span class="monument-word">Anish</span><picture class="monument-photo"><source srcset="/headshot.webp" type="image/webp" /><img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="640" height="640" /></picture></span></span>
+      <span class="mask"><span class="mask-in"><span class="monument-word">Anish</span><picture class="monument-photo"><source srcset="/headshot.webp" type="image/webp" /><img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="640" height="640" /></picture><span class="hero-sentence">I take data and AI systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech, and enterprise software.</span></span></span>
       <span class="mask"><span class="mask-in mask-in-2">Mahapatra</span></span>
     </h1>
     <div class="hero-foot">
@@ -210,7 +207,7 @@ const socials = [
     </div>
   </section>
 
-  <section id="work" class="work" aria-labelledby="work-heading">
+  <section id="work" class="work field-ink" aria-labelledby="work-heading">
     <h2 id="work-heading" class="section-title" data-reveal>Selected work</h2>
     <ul class="work-list">
       {projects.map((project) => (
@@ -241,7 +238,7 @@ const socials = [
     </ul>
   </section>
 
-  <section id="stats" class="figures" aria-labelledby="figures-heading">
+  <section id="stats" class="figures field-accent" aria-labelledby="figures-heading">
     <h2 id="figures-heading" class="section-title" data-reveal>By the numbers</h2>
     <dl class="figure-list">
       {figures.map((f) => (

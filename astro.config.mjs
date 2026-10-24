@@ -5,4 +5,5 @@ export default defineConfig({
   site: 'https://anishmahapatra.com',
   integrations: [sitemap()],
   compressHTML: true,
+  devToolbar: { enabled: false },
 });
