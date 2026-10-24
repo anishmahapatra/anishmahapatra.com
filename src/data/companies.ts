@@ -4,5 +4,5 @@ export const companyMarks: Record<string, { src: string; ratio: number }> = {
   Toast: { src: '/marks/toast-icon.svg', ratio: 4.95 / 4.753 },
   SAP: { src: '/marks/sap.svg', ratio: 412.38 / 204 },
   '7-Eleven': { src: '/marks/7-eleven.svg', ratio: 45 / 60 },
-  'Mu Sigma': { src: '/marks/mu-sigma-emblem.webp', ratio: 164 / 160 },
+  'Mu Sigma': { src: '/marks/mu-sigma-emblem.webp', ratio: 480 / 472 },
 };

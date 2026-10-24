@@ -42,6 +42,7 @@ const projects = [
   {
     name: 'Multimodal Biometric MLOps Pipeline',
     href: 'https://github.com/anishmahapatra/multimodal-fingerprint-analysis',
+    flow: ['Leakage-safe split', 'Train', 'Serve · FastAPI', 'Deploy · K8s'],
     desc: 'A packaged PyTorch workflow with leakage-safe data splits, reproducible training, FastAPI serving, tests, CI, Docker, and Kubernetes manifests.',
     tags: ['PyTorch', 'FastAPI', 'Docker', 'Kubernetes'],
     status: 'Implemented',
@@ -49,6 +50,7 @@ const projects = [
   {
     name: 'AI Engineer Interview Readiness',
     href: 'https://github.com/anishmahapatra/ai-engineer-interview-readiness',
+    flow: ['Next.js UI', 'Server-side API', 'Supabase'],
     desc: 'A deployed Next.js application for AI system design and interview preparation, with a server-side contact workflow and Supabase persistence.',
     tags: ['Next.js', 'TypeScript', 'Supabase'],
     status: 'Deployed',
@@ -56,6 +58,7 @@ const projects = [
   {
     name: 'Saathi Voice',
     href: 'https://github.com/anishmahapatra/saathi-voice',
+    flow: ['Whisper', 'Claude', 'ElevenLabs', 'Latency trace'],
     desc: 'A local voice AI loop for macOS combining speech recognition, an LLM, speech synthesis, turn history, and latency tracing.',
     tags: ['Whisper', 'Claude', 'ElevenLabs'],
     status: 'Prototype',
@@ -63,6 +66,7 @@ const projects = [
   {
     name: 'Payment Failure Intelligence Platform',
     href: 'https://github.com/anishmahapatra/payments-failure-intelligence-platform',
+    flow: ['Events', 'Classify failure', 'Retry decision', 'Monitor'],
     desc: 'An architecture blueprint for payment event contracts, failure classification, retry decisions, evaluation, and production monitoring.',
     tags: ['Event-driven', 'MLOps', 'Monitoring'],
     status: 'Design phase',
@@ -70,6 +74,7 @@ const projects = [
   {
     name: 'MultiDocument AI',
     href: 'https://github.com/anishmahapatra/MultiDocument-AI',
+    flow: ['PDF · DOCX · PPTX · XLSX', 'FAISS', 'LangChain', 'Answer'],
     desc: 'A Streamlit RAG prototype for querying PDF, DOCX, PPTX, and XLSX files using FAISS and LangChain.',
     tags: ['RAG', 'LangChain', 'FAISS', 'Streamlit'],
     status: 'Prototype',
@@ -80,27 +85,27 @@ const writing = [
   {
     title: 'Designing an End-to-End AI Platform for Payments and Retail (AWS)',
     date: 'Apr 2026',
-    href: 'https://anishmahapatra.medium.com/',
+    href: 'https://medium.com/data-science-collective/designing-an-end-to-end-ai-platform-for-payments-and-retail-aws-7fe4fce7c07e',
   },
   {
     title: 'Installing Claude Code for Agentic Engineering',
     date: 'Feb 2026',
-    href: 'https://anishmahapatra.medium.com/',
+    href: 'https://anishmahapatra.medium.com/installing-claude-code-for-agentic-engineering-dc438ab46bbf',
   },
   {
     title: 'How to Set Up an Enterprise-Ready Production Environment for Data Engineering',
     date: 'Jul 2024',
-    href: 'https://anishmahapatra.medium.com/',
+    href: 'https://medium.datadriveninvestor.com/how-to-set-up-an-enterprise-ready-production-environment-for-data-engineering-78de4829f831',
   },
   {
     title: 'What is LangChain? (AI Crash Course)',
     date: 'Feb 2024',
-    href: 'https://anishmahapatra.medium.com/',
+    href: 'https://medium.datadriveninvestor.com/what-is-langchain-ai-crash-course-4b1122793191',
   },
   {
     title: 'Build a CI/CD Pipeline on AWS',
     date: 'Nov 2023',
-    href: 'https://anishmahapatra.medium.com/',
+    href: 'https://anishmahapatra.medium.com/build-a-ci-cd-pipeline-on-aws-ebc47fb418dc',
   },
 ];
 
@@ -177,7 +182,7 @@ const figures = [
     </div>
     <picture class="hero-photo">
       <source srcset="/headshot.webp" type="image/webp" />
-      <img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="640" height="640" fetchpriority="high" decoding="async" />
+      <img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="1200" height="1200" fetchpriority="high" decoding="async" />
     </picture>
   </section>
 
@@ -276,6 +281,9 @@ const figures = [
             <span class="work-meta">
               <span class="work-desc">{project.desc}</span>
               <span class="work-tags">{project.tags.join(' · ')}</span>
+              <span class="work-flow" aria-label={`Pipeline: ${project.flow.join(', then ')}`}>
+                {project.flow.map((step, i) => (<><span class="work-step" aria-hidden="true">{step}</span>{i < project.flow.length - 1 && <span class="work-sep" aria-hidden="true">→</span>}</>))}
+              </span>
             </span>
             <span class="work-arrow" aria-hidden="true">↗</span>
           </a>

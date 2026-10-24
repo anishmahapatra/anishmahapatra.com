@@ -83,9 +83,7 @@ const personSchema = {
       (function () {
         try {
           var stored = localStorage.getItem('theme');
-          if (stored === 'light' || stored === 'dark') {
-            document.documentElement.setAttribute('data-theme', stored);
-          }
+          document.documentElement.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
         } catch (e) {}
       })();
     </script>
@@ -132,14 +130,13 @@ const personSchema = {
         var root = document.documentElement;
         var mq = window.matchMedia('(prefers-color-scheme: dark)');
         var effective = function () {
-          return root.getAttribute('data-theme') || (mq.matches ? 'dark' : 'light');
+          return root.getAttribute('data-theme') || 'dark';
         };
         var sync = function () {
           // Pressed = dark theme on. The icon itself morphs in CSS from the theme state.
           btn.setAttribute('aria-pressed', effective() === 'dark' ? 'true' : 'false');
         };
         sync();
-        if (mq.addEventListener) mq.addEventListener('change', sync);
         btn.addEventListener('click', function () {
           var next = effective() === 'dark' ? 'light' : 'dark';
           root.setAttribute('data-theme', next);
