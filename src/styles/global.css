@@ -814,6 +814,10 @@ button {
   filter: brightness(0) invert(1);
 }
 
+:root[data-theme="dark"] .record-logo img.lift {
+  filter: brightness(1.7);
+}
+
 .record-logo img {
   max-width: 100%;
   width: auto;
@@ -1078,6 +1082,9 @@ button {
 }
 
 .stack-list-soft {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
   font-weight: 400;
   color: var(--text-soft);
 }
@@ -1403,8 +1410,8 @@ button {
 
   .site-nav {
     order: 3;
-    width: calc(100% + 24px);
-    margin: 0 -12px;
+    width: calc(100% + 20px);
+    margin: 0 -10px;
     font-size: 0.875rem;
   }
 
