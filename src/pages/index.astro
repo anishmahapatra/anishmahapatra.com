@@ -1,5 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SocialIcon from '../components/SocialIcon.astro';
+import CompanyMark from '../components/CompanyMark.astro';
+import { socials } from '../data/socials';
+import knowledgehutSvg from '../assets/marks/knowledgehut.svg?raw';
+import pepperSvg from '../assets/marks/pepper.svg?raw';
 
 const title = 'Anish Mahapatra | Senior AI/ML Engineer, Production Systems';
 const description =
@@ -10,8 +15,6 @@ const experience = [
     when: '2026–Present',
     title: 'Senior Software Engineer',
     org: 'Toast',
-    logo: '/logos/toast.svg',
-    logoAlt: 'Toast',
     current: true,
     desc: 'Applying production AI/ML and data engineering experience to Toast’s restaurant fintech platform.',
   },
@@ -19,24 +22,18 @@ const experience = [
     when: '2024–2026',
     title: 'Senior MLOps Engineer, AIOps Platform Lead',
     org: 'SAP',
-    logo: '/logos/sap.svg',
-    logoAlt: 'SAP',
     desc: 'Led productionization of an enterprise AIOps platform for Fortune 500 clients on Kubernetes; built MLOps/LLMOps workflows with GitHub Actions, ArgoCD, and MLflow, and NLP-based data anonymization pipelines.',
   },
   {
     when: '2022–2024',
     title: 'Senior AI & Machine Learning Engineer',
     org: '7-Eleven',
-    logo: '/logos/7-eleven.svg',
-    logoAlt: '7-Eleven',
     desc: 'Built LLM-driven enterprise analytics with LangChain and real-time data pipelines on Kafka, Spark, and Databricks; led migration of large-scale tables to Delta Lake and Power BI.',
   },
   {
     when: '2018–2022',
     title: 'Lead Data Scientist',
     org: 'Mu Sigma',
-    logo: '/logos/mu-sigma.png',
-    logoAlt: 'Mu Sigma',
     desc: 'Progressed from Data Scientist to Lead Data Scientist over four years, leading ML pipelines and data engineering for Fortune 300 clients across demand forecasting and anomaly detection.',
   },
 ];
@@ -125,6 +122,26 @@ const featured = [
   { name: 'Towards Data Science', href: 'https://towardsdatascience.com/' },
 ];
 
+// Featured & teaching logos. Every mark is the brand's own artwork, stored locally;
+// `h` balances optical height across very different shapes.
+type Mark =
+  | { kind: 'themed'; light: string; dark: string; w: number; wDark: number; h: number }
+  | { kind: 'inline'; svg: string; h: number }
+  | { kind: 'icon'; icon: 'medium'; h: number }
+  | { kind: 'word'; h: number };
+
+const featuredMarks: Record<string, Mark> = {
+  'upGrad KnowledgeHut': { kind: 'inline', svg: knowledgehutSvg, h: 42 },
+  Pluralsight: { kind: 'themed', light: '/marks/pluralsight-light.webp', dark: '/marks/pluralsight-dark.webp', w: 504 / 86, wDark: 345 / 75, h: 32 },
+  Pepper: { kind: 'inline', svg: pepperSvg, h: 34 },
+  'Towards Data Science': { kind: 'word', h: 44 },
+};
+
+const featuredWith: { name: string; href: string; mark: Mark; caption: string }[] = [
+  ...featured.map((f) => ({ name: f.name, href: f.href, mark: featuredMarks[f.name], caption: 'Featured & teaching' })),
+  { name: 'Medium', href: 'https://anishmahapatra.medium.com/', mark: { kind: 'icon', icon: 'medium', h: 30 }, caption: 'Top Writer' },
+];
+
 const education = [
   { name: 'MSc Data Science, Distinction (top 1%)', org: 'Liverpool John Moores University' },
   { name: 'PG Diploma, Data Science', org: 'IIIT Bangalore' },
@@ -134,22 +151,17 @@ const education = [
 const figures = [
   { figure: '100,000+', text: 'learners taught Data Science, Machine Learning, and AI.' },
   { figure: '8 years', text: 'taking data and AI systems from prototype to production, 2018 to today.' },
-  { figure: '4', text: 'companies: Mu Sigma, 7-Eleven, SAP, and Toast.' },
+  { figure: '4', text: 'companies: Mu Sigma, 7-\u2060Eleven, SAP, and Toast.' },
   { figure: 'Top 1%', text: 'MSc in Data Science with Distinction, Liverpool John Moores University.' },
 ];
 
-const socials = [
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/anishmahapatra/' },
-  { name: 'GitHub', href: 'https://github.com/anishmahapatra' },
-  { name: 'Medium', href: 'https://anishmahapatra.medium.com/' },
-  { name: 'Twitter', href: 'https://x.com/_anishmahapatra' },
-];
 ---
+
 
 <Layout title={title} description={description}>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <p class="hero-role">Senior AI/ML Engineer · Toast</p>
+      <p class="hero-role">Senior AI/ML Engineer at <span class="co"><CompanyMark org="Toast" size={22} />Toast</span></p>
       <h1 id="hero-title" class="hero-name">Anish Mahapatra</h1>
       <p class="hero-lede">I take data and AI systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech, and enterprise software.</p>
       <div class="hero-actions">
@@ -158,29 +170,71 @@ const socials = [
       </div>
       <nav class="hero-social" aria-label="Profiles">
         {socials.map((l) => (
-          <a href={l.href} rel="me noopener noreferrer" target="_blank">{l.name}</a>
+          <a href={l.href} rel="me noopener noreferrer" target="_blank"><SocialIcon name={l.icon} /><span>{l.name}</span></a>
         ))}
       </nav>
     </div>
-    <picture class="hero-photo"><source srcset="/headshot.webp" type="image/webp" /><img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="640" height="640" /></picture>
+    <picture class="hero-photo">
+      <source srcset="/headshot.webp" type="image/webp" />
+      <img src="/headshot.jpg" alt="Portrait of Anish Mahapatra" width="640" height="640" fetchpriority="high" decoding="async" />
+    </picture>
   </section>
 
-  <section id="about" class="about" aria-labelledby="about-heading">
-    <h2 id="about-heading" class="section-title" data-reveal>About</h2>
-    <dl class="facts" data-reveal>
-      <div><dt>Now</dt><dd>Toast</dd></div>
-      <div><dt>Role</dt><dd>Senior AI/ML Engineer</dd></div>
-      <div><dt>Writing</dt><dd>Medium Top Writer</dd></div>
-    </dl>
-    <div class="about-body">
-      <p class="about-lede" data-reveal>
+  <section class="logos" aria-labelledby="logos-heading">
+    <div class="logos-head" data-reveal>
+      <h2 id="logos-heading" class="label">Featured &amp; teaching</h2>
+      <div class="carousel-controls">
+        <button class="carousel-btn" type="button" data-dir="-1" aria-label="Scroll logos back"><span aria-hidden="true">←</span></button>
+        <button class="carousel-btn" type="button" data-dir="1" aria-label="Scroll logos forward"><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+    <div class="carousel" tabindex="0" role="region" aria-labelledby="logos-heading" data-reveal>
+      <ul class="carousel-track">
+        {featuredWith.map((c) => {
+          const m = c.mark;
+          const style = `--h: ${m.h}px`;
+          return (
+            <li class="logo-tile">
+              <a class="logo-card" href={c.href} rel="noopener noreferrer" target="_blank">
+                {m.kind === 'themed' ? (
+                  <span class="logo-mark" style={style}>
+                    <img class="only-light" src={m.light} alt={`${c.name} logo`} width={Math.round(m.h * 2 * m.w)} height={m.h * 2} loading="lazy" decoding="async" />
+                    <img class="only-dark" src={m.dark} alt={`${c.name} logo`} width={Math.round(m.h * 2 * m.wDark)} height={m.h * 2} loading="lazy" decoding="async" />
+                  </span>
+                ) : m.kind === 'inline' ? (
+                  <span class="logo-mark logo-inline" style={style} role="img" aria-label={`${c.name} logo`} set:html={m.svg} />
+                ) : m.kind === 'icon' ? (
+                  <span class="logo-mark logo-wordmark" style={style}><SocialIcon name={m.icon} /><span>{c.name}</span></span>
+                ) : (
+                  <span class="logo-mark logo-wordmark logo-wordmark-only" style={style}>{c.name}</span>
+                )}
+                <span class="logo-caption">{(m.kind === 'themed' || m.kind === 'inline') && <strong>{c.name}</strong>} <span>{c.caption}</span></span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <section id="about" class="section split" aria-labelledby="about-heading">
+    <header class="split-head">
+      <h2 id="about-heading" class="section-title" data-reveal>About</h2>
+      <dl class="facts" data-reveal>
+        <div><dt>Now</dt><dd><span class="co"><CompanyMark org="Toast" />Toast</span></dd></div>
+        <div><dt>Role</dt><dd>Senior AI/ML Engineer</dd></div>
+        <div><dt>Writing</dt><dd>Medium Top Writer</dd></div>
+      </dl>
+    </header>
+    <div class="split-body">
+      <p class="lede" data-reveal>
         I'm an AI/ML engineer with several years of experience taking data and
         AI systems from prototype to production. I've built data
-        infrastructure and AI/ML platforms at scale at SAP, 7-Eleven, and
-        Toast, working with Fortune 500 stakeholders across fintech, adtech,
+        infrastructure and AI/ML platforms at scale at <span class="co"><CompanyMark org="SAP" />SAP</span>, <span class="co"><CompanyMark org="7-Eleven" />7-Eleven</span>, and
+        <span class="co"><CompanyMark org="Toast" />Toast</span>, working with Fortune 500 stakeholders across fintech, adtech,
         and enterprise software.
       </p>
-      <div class="about-cols" data-reveal>
+      <div class="cols" data-reveal>
         <p>
           My work spans data engineering, machine learning, data science,
           LLM-based applications, and artificial intelligence in production:
@@ -194,57 +248,63 @@ const socials = [
           write about it on Medium, where I'm recognized as a Top Writer.
         </p>
       </div>
-    </div>
-    <p class="record-word" data-reveal>Education</p>
-    <div class="record" data-reveal>
-      <ul class="record-list">
-        {education.map((e) => (
-          <li><span>{e.name}</span><span class="soft">{e.org}</span></li>
-        ))}
-      </ul>
-      <div>
-        <p class="record-sub">Featured &amp; teaching</p>
+      <div class="record" data-reveal>
+        <h3 class="label">Education</h3>
         <ul class="record-list">
-          {featured.map((f) => (
-            <li><a class="text-link" href={f.href} rel="noopener noreferrer" target="_blank">{f.name}</a></li>
+          {education.map((e) => (
+            <li><span class="record-name">{e.name}</span><span class="soft">{e.org}</span></li>
           ))}
         </ul>
       </div>
     </div>
   </section>
 
-  <section id="work" class="work field-ink" aria-labelledby="work-heading">
-    <h2 id="work-heading" class="section-title" data-reveal>Selected work</h2>
+  <section id="work" class="section field-ink work" aria-labelledby="work-heading">
+    <div class="section-head" data-reveal>
+      <h2 id="work-heading" class="section-title">Selected work</h2>
+      <a class="text-link" href="https://github.com/anishmahapatra" rel="noopener noreferrer" target="_blank">More on GitHub <span aria-hidden="true">↗</span></a>
+    </div>
     <ul class="work-list">
       {projects.map((project) => (
         <li data-reveal>
           <a class="work-row" href={project.href} rel="noopener noreferrer" target="_blank">
-            <span class="work-name">{project.name}</span>
+            <span class="work-head">
+              <span class="work-name">{project.name}</span>
+              <span class="work-status">{project.status}</span>
+            </span>
             <span class="work-meta">
               <span class="work-desc">{project.desc}</span>
-              <span class="work-tags">{project.status} · {project.tags.join(' · ')}</span>
+              <span class="work-tags">{project.tags.join(' · ')}</span>
             </span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
       ))}
     </ul>
   </section>
 
-  <section id="experience" class="experience" aria-labelledby="experience-heading">
-    <h2 id="experience-heading" class="section-title" data-reveal>Experience</h2>
-    <ul class="lineup">
+  <section id="experience" class="section split" aria-labelledby="experience-heading">
+    <header class="split-head">
+      <h2 id="experience-heading" class="section-title" data-reveal>Experience</h2>
+    </header>
+    <ol class="lineup split-body">
       {experience.map((role) => (
         <li class="lineup-row" data-reveal>
-          <span class="lineup-org">{role.org}{role.current && <span class="lineup-now"> · Current</span>}</span>
-          <span class="lineup-title">{role.title}</span>
-          <span class="lineup-desc">{role.desc}</span>
-          <span class="lineup-when">{role.when}</span>
+          <div class="lineup-meta">
+            <CompanyMark org={role.org} size={36} class="lineup-logo" />
+            <h3 class="lineup-org">{role.org}</h3>
+            <p class="lineup-when">{role.when}{role.current && <span class="lineup-now">Current</span>}</p>
+          </div>
+          <div class="lineup-role">
+            <p class="lineup-title">{role.title}</p>
+            <p class="lineup-desc">{role.desc}</p>
+          </div>
         </li>
       ))}
-    </ul>
+    </ol>
   </section>
 
-  <section id="stats" class="figures field-accent" aria-labelledby="figures-heading">
+  <section id="stats" class="section field-accent figures" aria-labelledby="figures-heading">
     <h2 id="figures-heading" class="section-title" data-reveal>By the numbers</h2>
     <dl class="figure-list">
       {figures.map((f) => (
@@ -256,17 +316,20 @@ const socials = [
     </dl>
   </section>
 
-  <section id="writing" class="writing" aria-labelledby="writing-heading">
-    <h2 id="writing-heading" class="section-title" data-reveal>Writing</h2>
-    <p class="writing-lede" data-reveal>
-      Medium Top Writer. I've taught Data Science, Machine Learning, and AI to
-      over 100,000 learners.
-    </p>
-    <ul class="writing-list">
+  <section id="writing" class="section split" aria-labelledby="writing-heading">
+    <header class="split-head">
+      <h2 id="writing-heading" class="section-title" data-reveal>Writing</h2>
+      <p class="split-note" data-reveal>
+        Medium Top Writer. I've taught Data Science, Machine Learning, and AI to
+        over 100,000 learners.
+      </p>
+      <a class="text-link split-link" href="https://anishmahapatra.medium.com/" rel="noopener noreferrer" target="_blank" data-reveal>All articles on Medium <span aria-hidden="true">↗</span></a>
+    </header>
+    <ul class="writing-list split-body">
       {writing.map((post) => (
         <li data-reveal>
           <a class="writing-row" href={post.href} rel="noopener noreferrer" target="_blank">
-            <span>{post.title}</span>
+            <span class="writing-title">{post.title}</span>
             <span class="writing-date">{post.date}</span>
           </a>
         </li>
@@ -274,25 +337,37 @@ const socials = [
     </ul>
   </section>
 
-  <section id="stack" class="stack" aria-labelledby="stack-heading">
-    <h2 id="stack-heading" class="section-title" data-reveal>Technical interests</h2>
-    <p class="stack-lede" data-reveal>
-      Production ML and LLM serving, evaluation and observability, Kubernetes-native
-      delivery, and data contracts for real-time and batch pipelines.
-    </p>
-    <p class="stack-list" data-reveal>{stack.join(', ')}.</p>
-    <p class="stack-sub" data-reveal>Also exploring: {stackTrending.join(', ')}.</p>
+  <section id="stack" class="section split" aria-labelledby="stack-heading">
+    <header class="split-head">
+      <h2 id="stack-heading" class="section-title" data-reveal>Technical interests</h2>
+    </header>
+    <div class="split-body">
+      <p class="lede" data-reveal>
+        Production ML and LLM serving, evaluation and observability, Kubernetes-native
+        delivery, and data contracts for real-time and batch pipelines.
+      </p>
+      <h3 class="label stack-label" data-reveal>Working stack</h3>
+      <ul class="stack-list" data-reveal>
+        {stack.map((s) => <li>{s}</li>)}
+      </ul>
+      <h3 class="label stack-label" data-reveal>Also exploring</h3>
+      <ul class="stack-list stack-list-soft" data-reveal>
+        {stackTrending.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
   </section>
 
-  <section id="contact" class="contact" aria-labelledby="contact-heading">
-    <h2 id="contact-heading" class="contact-sentence" data-reveal>
-      Open to conversations on AI/ML platforms, MLOps, and reliable, real-world systems.
-    </h2>
-    <a class="contact-email" href="mailto:anishmahapatra01@gmail.com" data-reveal>anishmahapatra01@gmail.com</a>
-    <button class="cta-copy" type="button" data-email="anishmahapatra01@gmail.com"><span class="cta-copy-label">Copy email</span></button>
+  <section id="contact" class="section field-ink contact" aria-labelledby="contact-heading">
+    <div class="contact-main">
+      <h2 id="contact-heading" class="contact-sentence" data-reveal>
+        Open to conversations on AI/ML platforms, MLOps, and reliable, real-world systems.
+      </h2>
+      <a class="contact-email" href="mailto:anishmahapatra01@gmail.com" data-reveal>anishmahapatra01@gmail.com</a>
+      <button class="cta-copy" type="button" data-email="anishmahapatra01@gmail.com"><span class="cta-copy-label" aria-live="polite">Copy email</span></button>
+    </div>
     <nav class="contact-links" aria-label="Social">
       {socials.map((l) => (
-        <a href={l.href} rel="me noopener noreferrer" target="_blank"><span>{l.name}</span><span aria-hidden="true">↗</span></a>
+        <a href={l.href} rel="me noopener noreferrer" target="_blank"><SocialIcon name={l.icon} /><span class="contact-link-name">{l.name}</span><span class="contact-link-arrow" aria-hidden="true">↗</span></a>
       ))}
     </nav>
   </section>
@@ -323,6 +398,96 @@ const socials = [
       } else {
         window.location.href = 'mailto:' + email;
       }
+    });
+  })();
+
+  (function () {
+    // Featured & teaching carousel: arrows, mouse drag, gentle auto-advance. Each brand appears once.
+    var track = document.querySelector('.carousel');
+    if (!track) return;
+    var buttons = document.querySelectorAll('.carousel-btn');
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var step = function () {
+      var tile = track.querySelector('.logo-tile');
+      return tile ? tile.getBoundingClientRect().width + 16 : 300;
+    };
+    var atEnd = function () { return track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; };
+    var sync = function () {
+      var noScroll = track.scrollWidth <= track.clientWidth + 4;
+      buttons[0].disabled = noScroll || track.scrollLeft <= 4;
+      buttons[1].disabled = noScroll || atEnd();
+    };
+    var go = function (dir) {
+      track.scrollBy({ left: dir * step(), behavior: calm.matches ? 'auto' : 'smooth' });
+    };
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () { stop(); go(Number(b.getAttribute('data-dir'))); });
+    });
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+
+    // Drag with a mouse; touch and trackpads scroll natively.
+    var down = false, startX = 0, startLeft = 0, moved = false;
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
+      stop();
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) { moved = true; track.classList.add('is-dragging'); }
+      track.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener('pointerup', function () {
+      if (!down) return;
+      down = false;
+      track.classList.remove('is-dragging');
+    });
+    track.addEventListener('click', function (e) {
+      if (moved) { e.preventDefault(); moved = false; }
+    }, true);
+
+    // Auto-advance slowly; pause while hovered or focused; never under reduced motion.
+    var timer = null, hold = false;
+    var tick = function () {
+      if (hold || document.hidden) return;
+      if (atEnd()) track.scrollTo({ left: 0, behavior: 'smooth' });
+      else go(1);
+    };
+    var stop = function () { clearInterval(timer); timer = null; };
+    if (!calm.matches) timer = setInterval(tick, 3800);
+    ['pointerenter', 'focusin'].forEach(function (t) { track.addEventListener(t, function () { hold = true; }); });
+    ['pointerleave', 'focusout'].forEach(function (t) { track.addEventListener(t, function () { hold = false; }); });
+  })();
+
+  (function () {
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!fine.matches) return;
+
+    // Spotlight on the work rows follows the pointer.
+    document.querySelectorAll('.work-row').forEach(function (row) {
+      row.addEventListener('pointermove', function (e) {
+        var r = row.getBoundingClientRect();
+        row.style.setProperty('--x', (e.clientX - r.left) + 'px');
+        row.style.setProperty('--y', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    // The hero buttons lean a few pixels toward the pointer.
+    if (calm.matches) return;
+    document.querySelectorAll('.hero-actions .button').forEach(function (btn) {
+      btn.addEventListener('pointermove', function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        var dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        btn.style.transform = 'translate(' + (dx * 8).toFixed(1) + 'px,' + (dy * 6).toFixed(1) + 'px)';
+      });
+      btn.addEventListener('pointerleave', function () {
+        btn.style.transform = '';
+      });
     });
   })();
 </script>

@@ -1,0 +1,24 @@
+---
+import { companyMarks } from '../data/companies';
+
+interface Props {
+  org: string;
+  /** Rendered height in CSS pixels; the width follows the mark's own proportions. */
+  size?: number;
+  class?: string;
+}
+
+const { org, size = 20, class: className } = Astro.props;
+const mark = companyMarks[org];
+---
+
+{mark && (
+  <img
+    class:list={['co-mark', className]}
+    src={mark.src}
+    alt=""
+    width={Math.round(size * mark.ratio)}
+    height={size}
+    decoding="async"
+  />
+)}
