@@ -148,7 +148,7 @@ const featuredWith: { name: string; href: string; mark: Mark; caption: string }[
 ];
 
 const education = [
-  { name: 'MSc Data Science, Distinction (top 1%)', org: 'Liverpool John Moores University', logo: { src: '/marks/edu-ljmu.webp', w: 665, h: 192 } },
+  { name: 'MSc Data Science, Distinction (top 1%)', org: 'Liverpool John Moores University', logo: { src: '/marks/edu-ljmu.webp', w: 665, h: 192, mono: true } },
   { name: 'PG Diploma, Data Science', org: 'IIIT Bangalore', logo: { src: '/marks/edu-iiitb.webp', w: 235, h: 192 } },
   { name: 'BTech, Information Technology', org: 'Manipal Institute of Technology', logo: { src: '/marks/edu-manipal.webp', w: 450, h: 192 } },
 ];
@@ -259,7 +259,7 @@ const figures = [
         <ul class="record-list">
           {education.map((e) => (
             <li>
-              <span class="record-logo"><img src={e.logo.src} width={e.logo.w} height={e.logo.h} alt="" loading="lazy" decoding="async" /></span>
+              <span class="record-logo"><img class:list={[{ mono: e.logo.mono }]} src={e.logo.src} width={e.logo.w} height={e.logo.h} alt="" loading="lazy" decoding="async" /></span>
               <span class="record-name">{e.name}</span><span class="soft">{e.org}</span>
             </li>
           ))}
