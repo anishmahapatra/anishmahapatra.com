@@ -1416,6 +1416,34 @@ button {
     margin-top: 36px;
   }
 
+  .logo-tile {
+    width: 10.5rem;
+  }
+
+  .logo-card {
+    grid-template-rows: 44px auto;
+    gap: 12px;
+    padding: 16px 16px 14px;
+  }
+
+  .logo-mark img,
+  .logo-inline svg,
+  .logo-wordmark .icon {
+    max-height: 30px;
+  }
+
+  .logo-wordmark {
+    font-size: 1.0625rem;
+  }
+
+  .logo-caption {
+    font-size: 0.8125rem;
+  }
+
+  .carousel-track {
+    gap: 12px;
+  }
+
   .lede {
     line-height: 1.55;
   }

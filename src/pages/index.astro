@@ -434,7 +434,7 @@ const figures = [
       track.scrollBy({ left: dir * step(), behavior: calm.matches ? 'auto' : 'smooth' });
     };
     buttons.forEach(function (b) {
-      b.addEventListener('click', function () { stop(); go(Number(b.getAttribute('data-dir'))); });
+      b.addEventListener('click', function () { go(Number(b.getAttribute('data-dir'))); });
     });
     track.addEventListener('scroll', sync, { passive: true });
     window.addEventListener('resize', sync);
@@ -445,7 +445,6 @@ const figures = [
     track.addEventListener('pointerdown', function (e) {
       if (e.pointerType !== 'mouse') return;
       down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
-      stop();
     });
     window.addEventListener('pointermove', function (e) {
       if (!down) return;
@@ -463,16 +462,26 @@ const figures = [
     }, true);
 
     // Auto-advance slowly; pause while hovered or focused; never under reduced motion.
-    var timer = null, hold = false;
+    var timer = null, hold = false, resume = null;
     var tick = function () {
       if (hold || document.hidden) return;
       if (atEnd()) track.scrollTo({ left: 0, behavior: 'smooth' });
       else go(1);
     };
+    var start = function () { if (!timer && !calm.matches) timer = setInterval(tick, 3200); };
     var stop = function () { clearInterval(timer); timer = null; };
-    if (!calm.matches) timer = setInterval(tick, 3800);
-    ['pointerenter', 'focusin'].forEach(function (t) { track.addEventListener(t, function () { hold = true; }); });
-    ['pointerleave', 'focusout'].forEach(function (t) { track.addEventListener(t, function () { hold = false; }); });
+    start();
+    // Mouse: pause while hovered. Touch: pause while a finger is down or just lifted, then carry on.
+    track.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hold = true; });
+    track.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hold = false; });
+    track.addEventListener('focusin', function () { hold = true; });
+    track.addEventListener('focusout', function () { hold = false; });
+    var pause = function () { hold = true; clearTimeout(resume); };
+    var later = function () { clearTimeout(resume); resume = setTimeout(function () { hold = false; start(); }, 4000); };
+    track.addEventListener('touchstart', pause, { passive: true });
+    track.addEventListener('touchend', later, { passive: true });
+    track.addEventListener('touchcancel', later, { passive: true });
+    buttons.forEach(function (b) { b.addEventListener('click', later); });
   })();
 
   (function () {
