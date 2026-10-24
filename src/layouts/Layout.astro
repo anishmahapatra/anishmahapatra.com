@@ -149,6 +149,14 @@ const personSchema = {
     </script>
     <script is:inline>
       (function () {
+        var bar = document.querySelector('.site-header');
+        var set = function () { bar.classList.toggle('is-stuck', window.scrollY > 24); };
+        set();
+        window.addEventListener('scroll', set, { passive: true });
+      })();
+    </script>
+    <script is:inline>
+      (function () {
         var els = document.querySelectorAll('[data-reveal]');
         if (!('IntersectionObserver' in window)) {
           els.forEach(function (el) { el.classList.add('is-in'); });

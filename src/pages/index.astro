@@ -148,15 +148,14 @@ const featuredWith: { name: string; href: string; mark: Mark; caption: string }[
 ];
 
 const education = [
-  { name: 'MSc Data Science, Distinction (top 1%)', org: 'Liverpool John Moores University', logo: { src: '/marks/edu-ljmu.webp', w: 665, h: 192, mono: true } },
-  { name: 'PG Diploma, Data Science', org: 'IIIT Bangalore', logo: { src: '/marks/edu-iiitb.webp', w: 235, h: 192 } },
-  { name: 'BTech, Information Technology', org: 'Manipal Institute of Technology', logo: { src: '/marks/edu-manipal.webp', w: 450, h: 192 } },
+  { name: 'MSc Data Science, Distinction (top 1%)', org: 'Liverpool John Moores University', logo: { src: '/marks/edu-ljmu.webp', lh: 32, w: 665, h: 192, mono: true } },
+  { name: 'PG Diploma, Data Science', org: 'IIIT Bangalore', logo: { src: '/marks/edu-iiitb.webp', lh: 56, w: 235, h: 192 } },
+  { name: 'BTech, Information Technology', org: 'Manipal Institute of Technology', logo: { src: '/marks/edu-manipal.webp', lh: 38, w: 450, h: 192 } },
 ];
 
 const figures = [
   { figure: '100,000+', text: 'learners taught Data Science, Machine Learning, and AI.' },
-  { figure: '8 years', text: 'taking data and AI systems from prototype to production, 2018 to today.' },
-  { figure: '4', text: 'companies: Mu Sigma, 7-\u2060Eleven, SAP, and Toast.' },
+  { figure: '9 years', text: 'taking data and AI systems from prototype to production, 2018 to today.' },
   { figure: 'Top 1%', text: 'MSc in Data Science with Distinction, Liverpool John Moores University.' },
 ];
 
@@ -189,12 +188,8 @@ const figures = [
   <section class="logos" aria-labelledby="logos-heading">
     <div class="logos-head" data-reveal>
       <h2 id="logos-heading" class="label">Featured &amp; teaching</h2>
-      <div class="carousel-controls">
-        <button class="carousel-btn" type="button" data-dir="-1" aria-label="Scroll logos back"><span aria-hidden="true">←</span></button>
-        <button class="carousel-btn" type="button" data-dir="1" aria-label="Scroll logos forward"><span aria-hidden="true">→</span></button>
-      </div>
     </div>
-    <div class="carousel" tabindex="0" role="region" aria-label="Featured and teaching logos, scrollable" data-reveal>
+    <div class="carousel" tabindex="0" role="region" aria-label="Featured and teaching" data-reveal>
       <ul class="carousel-track">
         {featuredWith.map((c) => {
           const m = c.mark;
@@ -259,7 +254,7 @@ const figures = [
         <ul class="record-list">
           {education.map((e) => (
             <li>
-              <span class="record-logo"><img class:list={[{ mono: e.logo.mono }]} src={e.logo.src} width={e.logo.w} height={e.logo.h} alt="" loading="lazy" decoding="async" /></span>
+              <span class="record-logo"><img class:list={[{ mono: e.logo.mono }]} style={`--lh: ${e.logo.lh}px`} src={e.logo.src} width={e.logo.w} height={e.logo.h} alt="" loading="lazy" decoding="async" /></span>
               <span class="record-name">{e.name}</span><span class="soft">{e.org}</span>
             </li>
           ))}
@@ -415,73 +410,43 @@ const figures = [
   })();
 
   (function () {
-    // Featured & teaching carousel: arrows, mouse drag, gentle auto-advance. Each brand appears once.
-    var track = document.querySelector('.carousel');
+    // Featured & teaching: a slow, endless marquee. The track is cloned until it can loop without a gap,
+    // then one CSS transform animation does the moving (compositor-driven, so it stays smooth on phones).
+    var box = document.querySelector('.carousel');
+    var track = box && box.querySelector('.carousel-track');
     if (!track) return;
-    var buttons = document.querySelectorAll('.carousel-btn');
+    var originals = Array.prototype.slice.call(track.children);
     var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var step = function () {
-      var tile = track.querySelector('.logo-tile');
-      return tile ? tile.getBoundingClientRect().width + 16 : 300;
+    var SPEED = 26; // px per second
+    var build = function () {
+      Array.prototype.slice.call(track.querySelectorAll('[data-clone]')).forEach(function (n) { n.remove(); });
+      var set = originals[0].getBoundingClientRect().left;
+      var first = originals[0].getBoundingClientRect().left;
+      var last = originals[originals.length - 1].getBoundingClientRect();
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      set = last.right + gap - first;
+      var copies = Math.ceil(box.clientWidth / set) + 1;
+      for (var i = 0; i < copies; i++) {
+        originals.forEach(function (li) {
+          var c = li.cloneNode(true);
+          c.setAttribute('data-clone', '');
+          c.setAttribute('aria-hidden', 'true');
+          c.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+          track.appendChild(c);
+        });
+      }
+      track.style.setProperty('--set', set + 'px');
+      track.style.setProperty('--dur', (set / (calm.matches ? SPEED / 2 : SPEED)).toFixed(1) + 's');
     };
-    var atEnd = function () { return track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; };
-    var sync = function () {
-      var noScroll = track.scrollWidth <= track.clientWidth + 4;
-      buttons[0].disabled = noScroll || track.scrollLeft <= 4;
-      buttons[1].disabled = noScroll || atEnd();
-    };
-    var go = function (dir) {
-      track.scrollBy({ left: dir * step(), behavior: calm.matches ? 'auto' : 'smooth' });
-    };
-    buttons.forEach(function (b) {
-      b.addEventListener('click', function () { go(Number(b.getAttribute('data-dir'))); });
+    box.classList.add('is-marquee');
+    build();
+    var w = box.clientWidth;
+    window.addEventListener('resize', function () { if (box.clientWidth !== w) { w = box.clientWidth; build(); } });
+    // Touch: holding a card pauses it, letting go carries on.
+    track.addEventListener('touchstart', function () { box.classList.add('is-held'); }, { passive: true });
+    ['touchend', 'touchcancel'].forEach(function (t) {
+      track.addEventListener(t, function () { setTimeout(function () { box.classList.remove('is-held'); }, 1200); }, { passive: true });
     });
-    track.addEventListener('scroll', sync, { passive: true });
-    window.addEventListener('resize', sync);
-    sync();
-
-    // Drag with a mouse; touch and trackpads scroll natively.
-    var down = false, startX = 0, startLeft = 0, moved = false;
-    track.addEventListener('pointerdown', function (e) {
-      if (e.pointerType !== 'mouse') return;
-      down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
-    });
-    window.addEventListener('pointermove', function (e) {
-      if (!down) return;
-      var dx = e.clientX - startX;
-      if (Math.abs(dx) > 4) { moved = true; track.classList.add('is-dragging'); }
-      track.scrollLeft = startLeft - dx;
-    });
-    window.addEventListener('pointerup', function () {
-      if (!down) return;
-      down = false;
-      track.classList.remove('is-dragging');
-    });
-    track.addEventListener('click', function (e) {
-      if (moved) { e.preventDefault(); moved = false; }
-    }, true);
-
-    // Auto-advance slowly; pause while hovered or focused; steps are instant and slower under reduced motion.
-    var timer = null, hold = false, resume = null;
-    var tick = function () {
-      if (hold || document.hidden) return;
-      if (atEnd()) track.scrollTo({ left: 0, behavior: calm.matches ? 'auto' : 'smooth' });
-      else go(1);
-    };
-    var start = function () { if (!timer) timer = setInterval(tick, calm.matches ? 5000 : 3200); };
-    var stop = function () { clearInterval(timer); timer = null; };
-    start();
-    // Mouse: pause while hovered. Touch: pause while a finger is down or just lifted, then carry on.
-    track.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hold = true; });
-    track.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hold = false; });
-    track.addEventListener('focusin', function (e) { if (e.target.matches(':focus-visible')) hold = true; });
-    track.addEventListener('focusout', function () { hold = false; });
-    var pause = function () { hold = true; clearTimeout(resume); };
-    var later = function () { clearTimeout(resume); resume = setTimeout(function () { hold = false; start(); }, 4000); };
-    track.addEventListener('touchstart', pause, { passive: true });
-    track.addEventListener('touchend', later, { passive: true });
-    track.addEventListener('touchcancel', later, { passive: true });
-    buttons.forEach(function (b) { b.addEventListener('click', later); });
   })();
 
   (function () {
@@ -492,9 +457,30 @@ const figures = [
     var glow = hero && hero.querySelector('.hero-glow');
     var photo = hero && hero.querySelector('.hero-photo');
     if (!hero || !glow || !photo) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
+    var calmHero = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    // Touch: the glow wanders on a slow looping path, driven here (not by a CSS keyframe) so Safari on
+    // iPhone paints every frame. It stays on, gentler, under reduced motion: it is light, not travel.
+    if (!fine) {
+      var t0 = performance.now(), onScreen = true, ambient = 0;
+      var amp = calmHero ? 0.5 : 1;
+      var wander = function (now) {
+        ambient = 0;
+        if (!onScreen) return;
+        var t = (now - t0) / 1000, r = hero.getBoundingClientRect();
+        var x = r.width * (0.5 + 0.36 * amp * Math.sin(t * 0.32));
+        var y = r.height * (0.34 + 0.24 * amp * Math.sin(t * 0.21 + 1.3));
+        glow.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+        ambient = requestAnimationFrame(wander);
+      };
+      new IntersectionObserver(function (entries) {
+        onScreen = entries[0].isIntersecting;
+        if (onScreen && !ambient) ambient = requestAnimationFrame(wander);
+      }).observe(hero);
+      ambient = requestAnimationFrame(wander);
+    }
+    if (calmHero) return;
     var visible = true, raf = 0;
     var gx = 0, gy = 0, tgx = 0, tgy = 0; // glow position (px within hero)
     var tx = 0, ty = 0, ttx = 0, tty = 0; // tilt, -1..1
