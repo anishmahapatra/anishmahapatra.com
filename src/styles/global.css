@@ -1579,43 +1579,11 @@ button {
   vertical-align: -0.22em;
 }
 
-/* Featured & teaching: endless, slow marquee. Without script it stays a plain scrollable row. */
+/* Featured & teaching: endless, slow drift that can also be swiped. The script moves scrollLeft; without it this is a plain scrollable row. */
 .carousel.is-marquee {
-  overflow: hidden;
+  scroll-snap-type: none;
   cursor: default;
-}
-
-.carousel.is-marquee .carousel-track {
-  animation: marquee var(--dur, 60s) linear infinite;
-  will-change: transform;
-}
-
-.carousel.is-marquee.is-held .carousel-track {
-  animation-play-state: paused;
-}
-
-/* Hover and keyboard focus only pause for real mice and keyboards; touch browsers leave :hover/:focus stuck on the tapped link. */
-@media (hover: hover) and (pointer: fine) {
-  .carousel.is-marquee:hover .carousel-track {
-    animation-play-state: paused;
-  }
-}
-
-.carousel.is-marquee:has(:focus-visible) .carousel-track {
-  animation-play-state: paused;
-}
-
-@keyframes marquee {
-  to { transform: translate3d(calc(-1 * var(--set)), 0, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .carousel.is-marquee .carousel-track {
-    animation-name: marquee !important;
-    animation-duration: var(--dur, 60s) !important;
-    animation-timing-function: linear !important;
-    animation-iteration-count: infinite !important;
-  }
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 640px) {

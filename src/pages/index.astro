@@ -410,22 +410,24 @@ const figures = [
   })();
 
   (function () {
-    // Featured & teaching: a slow, endless marquee. The track is cloned until it can loop without a gap,
-    // then one CSS transform animation does the moving (compositor-driven, so it stays smooth on phones).
+    // Featured & teaching: a slow, endless drift that you can also swipe. It is a real scroll container
+    // (so a finger, trackpad or wheel moves it natively, momentum included) and a rAF loop nudges scrollLeft.
+    // The track is cloned into several copies; the loop re-centres only while idle, so it never cuts a fling short.
     var box = document.querySelector('.carousel');
     var track = box && box.querySelector('.carousel-track');
     if (!track) return;
     var originals = Array.prototype.slice.call(track.children);
     var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
     var SPEED = 26; // px per second
+    var set = 0, pos = 0, last = 0, userAt = -1e9, touching = false, hovering = false, onScreen = true, raf = 0;
     var build = function () {
       Array.prototype.slice.call(track.querySelectorAll('[data-clone]')).forEach(function (n) { n.remove(); });
-      var set = originals[0].getBoundingClientRect().left;
       var first = originals[0].getBoundingClientRect().left;
-      var last = originals[originals.length - 1].getBoundingClientRect();
+      var end = originals[originals.length - 1].getBoundingClientRect();
       var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-      set = last.right + gap - first;
-      var copies = Math.ceil(box.clientWidth / set) + 1;
+      set = end.right + gap - first;
+      var copies = Math.ceil(box.clientWidth / set) + 4;
       for (var i = 0; i < copies; i++) {
         originals.forEach(function (li) {
           var c = li.cloneNode(true);
@@ -435,22 +437,48 @@ const figures = [
           track.appendChild(c);
         });
       }
-      track.style.setProperty('--set', set + 'px');
-      track.style.setProperty('--dur', (set / (calm.matches ? SPEED / 2 : SPEED)).toFixed(1) + 's');
+      pos = box.scrollLeft = set * 2;
     };
     box.classList.add('is-marquee');
     build();
     var w = box.clientWidth;
     window.addEventListener('resize', function () { if (box.clientWidth !== w) { w = box.clientWidth; build(); } });
-    // Touch: holding a card pauses it, letting go carries on.
-    var release = function () { box.classList.remove('is-held'); };
-    track.addEventListener('touchstart', function () { box.classList.add('is-held'); }, { passive: true });
-    // Tapping a card opens it in a new tab; coming back must not leave the marquee paused (iOS keeps focus/hover on the link).
-    window.addEventListener('pageshow', function () { release(); if (document.activeElement && track.contains(document.activeElement)) document.activeElement.blur(); });
-    document.addEventListener('visibilitychange', function () { if (!document.hidden) release(); });
+
+    // Anything that moves scrollLeft by more than our own step is the person, so we back off and take over from there.
+    box.addEventListener('scroll', function () {
+      if (Math.abs(box.scrollLeft - pos) > 1.5) { userAt = performance.now(); pos = box.scrollLeft; }
+    }, { passive: true });
+    box.addEventListener('touchstart', function () { touching = true; userAt = performance.now(); }, { passive: true });
     ['touchend', 'touchcancel'].forEach(function (t) {
-      track.addEventListener(t, function () { setTimeout(function () { box.classList.remove('is-held'); }, 1200); }, { passive: true });
+      box.addEventListener(t, function () { touching = false; userAt = performance.now(); }, { passive: true });
     });
+    box.addEventListener('wheel', function () { userAt = performance.now(); }, { passive: true });
+    box.addEventListener('mouseenter', function () { hovering = fine.matches; });
+    box.addEventListener('mouseleave', function () { hovering = false; });
+    // Tapping a card opens a new tab; on return, carry on (and drop the focus iOS leaves on the link).
+    window.addEventListener('pageshow', function () {
+      touching = false; hovering = false; userAt = -1e9; last = 0;
+      if (document.activeElement && track.contains(document.activeElement)) document.activeElement.blur();
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; if (onScreen && !raf) raf = requestAnimationFrame(tick); }).observe(box);
+    }
+    var tick = function (now) {
+      raf = 0;
+      if (!onScreen) return;
+      var dt = last ? Math.min(now - last, 64) / 1000 : 0;
+      last = now;
+      var idle = !touching && now - userAt > 1500 && !hovering && !track.querySelector(':focus-visible');
+      if (idle) {
+        pos += dt * (calm.matches ? SPEED / 2 : SPEED);
+        // Idle, so a jump of exactly one set is invisible: keep clear of both ends.
+        if (pos >= set * 3) pos -= set;
+        else if (pos <= set) pos += set;
+        box.scrollLeft = pos;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
   })();
 
   (function () {
