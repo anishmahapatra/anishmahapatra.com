@@ -160,6 +160,7 @@ const figures = [
 
 <Layout title={title} description={description}>
   <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-glow" aria-hidden="true"></div>
     <div class="hero-copy">
       <p class="hero-role">Senior AI/ML Engineer at <span class="co"><CompanyMark org="Toast" size={22} />Toast</span></p>
       <h1 id="hero-title" class="hero-name">Anish Mahapatra</h1>
@@ -188,7 +189,7 @@ const figures = [
         <button class="carousel-btn" type="button" data-dir="1" aria-label="Scroll logos forward"><span aria-hidden="true">→</span></button>
       </div>
     </div>
-    <div class="carousel" tabindex="0" role="region" aria-labelledby="logos-heading" data-reveal>
+    <div class="carousel" tabindex="0" role="region" aria-label="Featured and teaching logos, scrollable" data-reveal>
       <ul class="carousel-track">
         {featuredWith.map((c) => {
           const m = c.mark;
@@ -208,7 +209,7 @@ const figures = [
                 ) : (
                   <span class="logo-mark logo-wordmark logo-wordmark-only" style={style}>{c.name}</span>
                 )}
-                <span class="logo-caption">{(m.kind === 'themed' || m.kind === 'inline') && <strong>{c.name}</strong>} <span>{c.caption}</span></span>
+                <span class="logo-caption">{(m.kind === 'themed' || m.kind === 'inline') && <strong aria-hidden="true">{c.name}</strong>} <span>{c.caption}</span></span>
               </a>
             </li>
           );
@@ -359,9 +360,10 @@ const figures = [
 
   <section id="contact" class="section field-ink contact" aria-labelledby="contact-heading">
     <div class="contact-main">
-      <h2 id="contact-heading" class="contact-sentence" data-reveal>
+      <h2 id="contact-heading" class="section-title" data-reveal>Contact</h2>
+      <p class="contact-sentence" data-reveal>
         Open to conversations on AI/ML platforms, MLOps, and reliable, real-world systems.
-      </h2>
+      </p>
       <a class="contact-email" href="mailto:anishmahapatra01@gmail.com" data-reveal>anishmahapatra01@gmail.com</a>
       <button class="cta-copy" type="button" data-email="anishmahapatra01@gmail.com"><span class="cta-copy-label" aria-live="polite">Copy email</span></button>
     </div>
@@ -460,6 +462,83 @@ const figures = [
     if (!calm.matches) timer = setInterval(tick, 3800);
     ['pointerenter', 'focusin'].forEach(function (t) { track.addEventListener(t, function () { hold = true; }); });
     ['pointerleave', 'focusout'].forEach(function (t) { track.addEventListener(t, function () { hold = false; }); });
+  })();
+
+  (function () {
+    // Hero: a soft accent spotlight that follows the pointer, and a slight tilt on the portrait.
+    // Phones get a slow ambient drift (CSS) and, where it needs no permission, a light tilt from
+    // the device's orientation. Everything stops off-screen and under reduced motion.
+    var hero = document.querySelector('.hero');
+    var glow = hero && hero.querySelector('.hero-glow');
+    var photo = hero && hero.querySelector('.hero-photo');
+    if (!hero || !glow || !photo) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var visible = true, raf = 0;
+    var gx = 0, gy = 0, tgx = 0, tgy = 0; // glow position (px within hero)
+    var tx = 0, ty = 0, ttx = 0, tty = 0; // tilt, -1..1
+
+    var rest = function () {
+      var r = hero.getBoundingClientRect();
+      tgx = r.width * 0.72; tgy = r.height * 0.45; ttx = 0; tty = 0;
+    };
+    rest(); gx = tgx; gy = tgy;
+
+    var render = function () {
+      raf = 0;
+      gx += (tgx - gx) * 0.12; gy += (tgy - gy) * 0.12;
+      tx += (ttx - tx) * 0.12; ty += (tty - ty) * 0.12;
+      if (fine) glow.style.transform = 'translate3d(' + gx.toFixed(1) + 'px,' + gy.toFixed(1) + 'px,0)';
+      photo.style.transform = Math.abs(tx) + Math.abs(ty) < 0.002 ? '' :
+        'perspective(900px) rotateY(' + (tx * 4).toFixed(2) + 'deg) rotateX(' + (-ty * 4).toFixed(2) + 'deg) translate3d(' + (tx * 6).toFixed(1) + 'px,' + (ty * 6).toFixed(1) + 'px,0)';
+      var moving = Math.abs(tgx - gx) > 0.5 || Math.abs(tgy - gy) > 0.5 || Math.abs(ttx - tx) > 0.002 || Math.abs(tty - ty) > 0.002;
+      if (moving && visible) raf = requestAnimationFrame(render);
+    };
+    var kick = function () { if (!raf && visible) raf = requestAnimationFrame(render); };
+
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      hero.classList.toggle('is-offscreen', !visible);
+      if (visible) kick();
+    }).observe(hero);
+
+    if (fine) {
+      hero.addEventListener('pointermove', function (e) {
+        var r = hero.getBoundingClientRect();
+        tgx = e.clientX - r.left; tgy = e.clientY - r.top;
+        var p = photo.getBoundingClientRect();
+        ttx = Math.max(-1, Math.min(1, (e.clientX - (p.left + p.width / 2)) / (r.width / 2)));
+        tty = Math.max(-1, Math.min(1, (e.clientY - (p.top + p.height / 2)) / (r.height / 2)));
+        kick();
+      });
+      hero.addEventListener('pointerleave', function () { rest(); kick(); });
+      window.addEventListener('resize', function () { rest(); kick(); });
+      return;
+    }
+
+    // Touch: dragging across the portrait nudges the tilt, then it settles back.
+    var startX = 0, startY = 0;
+    photo.addEventListener('pointerdown', function (e) { startX = e.clientX; startY = e.clientY; });
+    photo.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'touch') return;
+      ttx = Math.max(-1, Math.min(1, (e.clientX - startX) / 120));
+      tty = Math.max(-1, Math.min(1, (e.clientY - startY) / 120));
+      kick();
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) {
+      photo.addEventListener(t, function () { ttx = 0; tty = 0; kick(); });
+    });
+
+    // Device orientation only where it is permission-free (not iOS, which needs a prompt).
+    if ('DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission !== 'function') {
+      window.addEventListener('deviceorientation', function (e) {
+        if (e.gamma == null || e.beta == null) return;
+        ttx = Math.max(-1, Math.min(1, e.gamma / 30));
+        tty = Math.max(-1, Math.min(1, (e.beta - 45) / 30));
+        kick();
+      }, { passive: true });
+    }
   })();
 
   (function () {
