@@ -6,14 +6,14 @@ import { socials } from '../data/socials';
 import knowledgehutSvg from '../assets/marks/knowledgehut.svg?raw';
 import pepperSvg from '../assets/marks/pepper.svg?raw';
 
-const title = 'Anish Mahapatra | Senior AI/ML Engineer, Production Systems';
+const title = 'Anish Mahapatra | Senior AI Systems Engineer';
 const description =
   "Anish Mahapatra is an AI/ML engineer taking data and AI systems from prototype to production at Toast, previously SAP, 7-Eleven, and Mu Sigma. Medium Top Writer teaching Data Science and AI to 100,000+ learners.";
 
 const experience = [
   {
     when: '2026–Present',
-    title: 'Senior Software Engineer',
+    title: 'Senior AI Systems Engineer',
     org: 'Toast',
     current: true,
     desc: 'Applying production AI/ML and data engineering experience to Toast’s restaurant fintech platform.',
@@ -167,7 +167,7 @@ const figures = [
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-glow" aria-hidden="true"></div>
     <div class="hero-copy">
-      <p class="hero-role">Senior AI/ML Engineer at <span class="co"><CompanyMark org="Toast" size={22} />Toast</span></p>
+      <p class="hero-role">Senior AI Systems Engineer at <span class="co"><CompanyMark org="Toast" size={22} />Toast</span></p>
       <h1 id="hero-title" class="hero-name">Anish Mahapatra</h1>
       <p class="hero-lede">I take data and AI systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech, and enterprise software.</p>
       <div class="hero-actions">
@@ -228,7 +228,7 @@ const figures = [
       <h2 id="about-heading" class="section-title" data-reveal>About</h2>
       <dl class="facts" data-reveal>
         <div><dt>Now</dt><dd><span class="co"><CompanyMark org="Toast" />Toast</span></dd></div>
-        <div><dt>Role</dt><dd>Senior AI/ML Engineer</dd></div>
+        <div><dt>Role</dt><dd>Senior AI Systems Engineer</dd></div>
         <div><dt>Writing</dt><dd>Medium Top Writer</dd></div>
       </dl>
     </header>
@@ -461,20 +461,20 @@ const figures = [
       if (moved) { e.preventDefault(); moved = false; }
     }, true);
 
-    // Auto-advance slowly; pause while hovered or focused; never under reduced motion.
+    // Auto-advance slowly; pause while hovered or focused; steps are instant and slower under reduced motion.
     var timer = null, hold = false, resume = null;
     var tick = function () {
       if (hold || document.hidden) return;
-      if (atEnd()) track.scrollTo({ left: 0, behavior: 'smooth' });
+      if (atEnd()) track.scrollTo({ left: 0, behavior: calm.matches ? 'auto' : 'smooth' });
       else go(1);
     };
-    var start = function () { if (!timer && !calm.matches) timer = setInterval(tick, 3200); };
+    var start = function () { if (!timer) timer = setInterval(tick, calm.matches ? 5000 : 3200); };
     var stop = function () { clearInterval(timer); timer = null; };
     start();
     // Mouse: pause while hovered. Touch: pause while a finger is down or just lifted, then carry on.
     track.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hold = true; });
     track.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hold = false; });
-    track.addEventListener('focusin', function () { hold = true; });
+    track.addEventListener('focusin', function (e) { if (e.target.matches(':focus-visible')) hold = true; });
     track.addEventListener('focusout', function () { hold = false; });
     var pause = function () { hold = true; clearTimeout(resume); };
     var later = function () { clearTimeout(resume); resume = setTimeout(function () { hold = false; start(); }, 4000); };
