@@ -629,6 +629,8 @@ button {
   width: auto;
   height: var(--h);
   max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .logo-inline {
