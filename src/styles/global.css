@@ -1590,9 +1590,18 @@ button {
   will-change: transform;
 }
 
-.carousel.is-marquee:hover .carousel-track,
-.carousel.is-marquee:focus-within .carousel-track,
 .carousel.is-marquee.is-held .carousel-track {
+  animation-play-state: paused;
+}
+
+/* Hover and keyboard focus only pause for real mice and keyboards; touch browsers leave :hover/:focus stuck on the tapped link. */
+@media (hover: hover) and (pointer: fine) {
+  .carousel.is-marquee:hover .carousel-track {
+    animation-play-state: paused;
+  }
+}
+
+.carousel.is-marquee:has(:focus-visible) .carousel-track {
   animation-play-state: paused;
 }
 

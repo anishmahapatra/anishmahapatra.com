@@ -139,7 +139,7 @@ const featuredMarks: Record<string, Mark> = {
   'upGrad KnowledgeHut': { kind: 'inline', svg: knowledgehutSvg, h: 42 },
   Pluralsight: { kind: 'themed', light: '/marks/pluralsight-light.webp', dark: '/marks/pluralsight-dark.webp', w: 504 / 86, wDark: 345 / 75, h: 32 },
   Pepper: { kind: 'inline', svg: pepperSvg, h: 34 },
-  'Towards Data Science': { kind: 'word', h: 44 },
+  'Towards Data Science': { kind: 'themed', light: '/marks/tds-light.webp', dark: '/marks/tds-dark.webp', w: 864 / 272, wDark: 864 / 272, h: 40 },
 };
 
 const featuredWith: { name: string; href: string; mark: Mark; caption: string }[] = [
@@ -443,7 +443,11 @@ const figures = [
     var w = box.clientWidth;
     window.addEventListener('resize', function () { if (box.clientWidth !== w) { w = box.clientWidth; build(); } });
     // Touch: holding a card pauses it, letting go carries on.
+    var release = function () { box.classList.remove('is-held'); };
     track.addEventListener('touchstart', function () { box.classList.add('is-held'); }, { passive: true });
+    // Tapping a card opens it in a new tab; coming back must not leave the marquee paused (iOS keeps focus/hover on the link).
+    window.addEventListener('pageshow', function () { release(); if (document.activeElement && track.contains(document.activeElement)) document.activeElement.blur(); });
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) release(); });
     ['touchend', 'touchcancel'].forEach(function (t) {
       track.addEventListener(t, function () { setTimeout(function () { box.classList.remove('is-held'); }, 1200); }, { passive: true });
     });
