@@ -13,11 +13,14 @@ const { title, description, path = '/' } = Astro.props;
 const canonicalURL = new URL(path, Astro.site);
 const ogImageURL = new URL('/og-image.png', Astro.site);
 
-const personSchema = {
-  '@context': 'https://schema.org',
+const personId = 'https://anishmahapatra.com/#person';
+
+const person = {
   '@type': 'Person',
+  '@id': personId,
   name: 'Anish Mahapatra',
-  url: 'https://anishmahapatra.com',
+  url: 'https://anishmahapatra.com/',
+  image: 'https://anishmahapatra.com/headshot.jpg',
   jobTitle: 'Senior AI Systems Engineer',
   worksFor: {
     '@type': 'Organization',
@@ -44,6 +47,28 @@ const personSchema = {
     'Natural Language Processing',
     'Data Platforms',
   ],
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': 'https://anishmahapatra.com/#website',
+  url: 'https://anishmahapatra.com/',
+  name: 'Anish Mahapatra',
+  publisher: { '@id': personId },
+};
+
+const profilePage = {
+  '@type': 'ProfilePage',
+  '@id': 'https://anishmahapatra.com/about/#profile',
+  url: 'https://anishmahapatra.com/about/',
+  name: title,
+  mainEntity: { '@id': personId },
+  isPartOf: { '@id': 'https://anishmahapatra.com/#website' },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': path === '/about/' ? [person, website, profilePage] : [person, website],
 };
 ---
 
@@ -74,7 +99,7 @@ const personSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
