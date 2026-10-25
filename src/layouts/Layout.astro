@@ -24,6 +24,7 @@ const person = {
   name: 'Anish Mahapatra',
   url: 'https://anishmahapatra.com/',
   image: 'https://anishmahapatra.com/headshot.jpg',
+  description: 'Senior MLOps Engineer and AI Educator who takes data and AI systems from prototype to production.',
   jobTitle: 'Senior MLOps Engineer',
   worksFor: {
     '@type': 'Organization',
@@ -60,18 +61,21 @@ const website = {
   publisher: { '@id': personId },
 };
 
+// Both pages are about one person, so each is a ProfilePage whose mainEntity is the Person node.
 const profilePage = {
   '@type': 'ProfilePage',
-  '@id': 'https://anishmahapatra.com/about/#profile',
-  url: 'https://anishmahapatra.com/about/',
+  '@id': `${canonicalURL.href}#webpage`,
+  url: canonicalURL.href,
   name: title,
+  description,
   mainEntity: { '@id': personId },
   isPartOf: { '@id': 'https://anishmahapatra.com/#website' },
+  inLanguage: 'en',
 };
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': path === '/about/' ? [person, website, profilePage] : [person, website],
+  '@graph': [person, website, profilePage],
 };
 ---
 
