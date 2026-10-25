@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { socials } from '../data/socials';
+
+const title = 'About Anish Mahapatra | Senior ML Ops Engineer and AI Educator';
+const description =
+  'About Anish Mahapatra: Senior ML Ops Engineer and AI Educator at Toast, previously SAP, 7-Eleven and Mu Sigma. Medium Top Writer who has taught Data Science, ML and AI to 100,000+ learners.';
+
+const roles = [
+  { when: '2026–Present', role: 'Senior AI Systems Engineer', org: 'Toast' },
+  { when: '2024–2026', role: 'Senior MLOps Engineer, AIOps Platform Lead', org: 'SAP' },
+  { when: '2022–2024', role: 'Senior AI & Machine Learning Engineer', org: '7-Eleven' },
+  { when: '2018–2022', role: 'Lead Data Scientist', org: 'Mu Sigma' },
+];
+
+const elsewhere = [
+  ...socials,
+  { name: 'Substack', href: 'https://anishmahapatra.substack.com/' },
+  { name: 'YouTube (AI For Dummies)', href: 'https://www.youtube.com/@AIForDummiesAnish' },
+];
+---
+
+<Layout title={title} description={description} path="/about/">
+  <section class="section about-page" aria-labelledby="about-page-title">
+    <div class="wrap">
+      <h1 id="about-page-title" class="section-title">About Anish Mahapatra</h1>
+      <p class="lede">
+        Anish Mahapatra is a Senior ML Ops Engineer and AI Educator at Toast. He takes data and AI
+        systems from prototype to production, at scale for Fortune 500 teams across fintech, adtech
+        and enterprise software, and has taught Data Science, Machine Learning and AI to over
+        100,000 learners.
+      </p>
+      <div class="cols">
+        <p>
+          Anish has built data infrastructure and AI/ML platforms at SAP, 7-Eleven and Toast. His work
+          spans data engineering, machine learning, LLM-based applications and AI in production: the
+          full path from a working prototype to something reliable enough to depend on.
+        </p>
+        <p>
+          He writes about it on Medium, where he is a Top Writer, and teaches on Substack and the
+          YouTube channel AI For Dummies. He holds an MSc in Data Science with Distinction from
+          Liverpool John Moores University, a PG Diploma in Data Science from IIIT Bangalore and a
+          BTech in Information Technology from Manipal Institute of Technology.
+        </p>
+      </div>
+
+      <h2 class="label">Experience</h2>
+      <ul class="about-list">
+        {roles.map((r) => <li>{r.role}, {r.org} ({r.when})</li>)}
+      </ul>
+
+      <h2 class="label">Elsewhere</h2>
+      <ul class="about-list">
+        {elsewhere.map((l) => <li><a class="text-link" href={l.href} rel="me noopener noreferrer" target="_blank">{l.name}</a></li>)}
+      </ul>
+
+      <p class="about-back"><a class="text-link" href="/">Back to the portfolio</a></p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-page {
+    padding-top: clamp(7rem, 12vw, 8rem);
+    padding-bottom: clamp(3rem, 8vw, 5rem);
+  }
+  @media (max-width: 760px) {
+    /* The fixed header wraps its nav onto a second row on phones (about 165px tall). */
+    .about-page {
+      padding-top: 11rem;
+    }
+  }
+  .about-page .lede {
+    margin-top: 1.5rem;
+    max-width: 38rem;
+  }
+  .about-page .cols {
+    margin-top: 2.5rem;
+  }
+  .about-page .label {
+    display: block;
+    margin: 3rem 0 0.9rem;
+  }
+  .about-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .about-back {
+    margin-top: 3rem;
+  }
+</style>
