@@ -18,7 +18,7 @@ Link text: use "Anish Mahapatra" or the bare domain. Always link `https://anishm
 |---|---|---|
 | GitHub | Done. Bio has role line and domain; Website field `https://anishmahapatra.com/`; profile README links the site with the role line | none |
 | Medium | Done. Short bio and About body carry the bio sentence; About links `anishmahapatra.com` | none |
-| Substack | Partly. Publication description has name, role and domain, but as plain text, not a link. Author bio still reads "Want to get to know me? Google me. Anish Mahapatra." | Replace the author bio with the bio sentence; add the site as a link on the About page |
+| Substack | Private. Never link or list it | none |
 | YouTube (personal, @AnishMahapatra01) | Done. Description and Links point to `https://anishmahapatra.com/` | none |
 | LinkedIn | Unverified. Public (logged-out) page shows "Anish Mahapatra - Toast", no headline or website visible. An old article links `www.anishmahapatra.com/post/what-is-the-future-of-work`, which now 404s | Check Contact info, Website (type: Personal) and Featured while logged in; fix or drop the dead `/post/...` link |
 | YouTube (AI For Dummies) | Not done: owned by a different Google account | Add the site link from that account |
