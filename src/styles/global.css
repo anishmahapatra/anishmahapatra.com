@@ -262,6 +262,7 @@ button {
 }
 
 .site-nav a:hover,
+.site-nav a[aria-current="page"],
 .theme-toggle:hover {
   color: var(--accent);
 }
