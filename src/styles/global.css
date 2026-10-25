@@ -788,6 +788,10 @@ button {
   background: var(--surface);
 }
 
+.about-more {
+  margin-top: clamp(28px, 3vw, 40px);
+}
+
 .record-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
